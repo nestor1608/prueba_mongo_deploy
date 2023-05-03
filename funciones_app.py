@@ -109,6 +109,7 @@ def update_aguada(setle):
         print(aguadas.shape,'update')
         x= aguadas[aguadas['animalSettlement']==setle]
         agua =data_devise[data_devise.deviceAnimalID.isin([str(i) for i in x._id])]
+        print(agua,'update data')
         return agua
 
 
