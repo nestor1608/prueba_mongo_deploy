@@ -36,20 +36,21 @@ def agua_click(data,vaca,fecha,setle):
 
 
 def agua_clicks(data,vaca,fecha,fecha2,setle):
-        aguadas=update_aguada(setle)
-        dtf= gps_aguada(aguadas,data)
-        data_p=filter_area_peri(data, dtf.iloc[0,0], dtf.iloc[0,1],4.0)
-        day_p=select_data_by_dates(data_p,fecha,fecha2)
-        p=data_devices(day_p,vaca)
-        return p
+    aguadas=update_aguada(setle)
+    dtf= gps_aguada(aguadas,data)
+    prueba= {}
+    for i,d in dtf.iterrows():
+        prueba[i]=filter_area_peri(data,d['dataRowData_lat'] , d['dataRowData_lng'],4.0)
+    prueb=pd.concat(prueba.values())
+    day_p=select_data_by_dates(prueb,fecha,fecha2) 
+    p=data_devices(day_p,vaca)
+    return p
 
 def result_select(data_values,data):
     select=data_values.point_ini.dt.strftime('%H:%M').isin(data.createdAt.dt.strftime('%H:%M').values)
     data_values.loc[select,'agua']=1
     data_values.agua= data_values.agua.fillna(0)
     return data_values
-
-
 
 def conducta_vaca_periodo(df, df_para_aguada,uuid, nombre, fecha_init: str, fecha_fin : str):
     data_finca= setle_clean(nombre)
