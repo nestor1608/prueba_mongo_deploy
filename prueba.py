@@ -1,6 +1,6 @@
 import pandas as pd 
 from funciones_app import data_devices,dataframe_interview_vaca,select_data_by_date,update_aguada,select_data_by_dates
-from conect_datarows import setle_clean,df_gps,add_dormida_column,separador_por_dia,diagnostico_devices
+from conect_datarows import setle_clean,add_dormida_column,separador_por_dia,diagnostico_devices
 from ml_streamlit import predict_model
 from geopy import Point
 from shapely.geometry import Point
@@ -62,5 +62,3 @@ def conducta_vaca_periodo(df, df_para_aguada,uuid, nombre, fecha_init: str, fech
     diagnostico = diagnostico_devices(resumen)
     df_gp = df_gp.drop(columns=['fecha'])
     return df_gp,resumen,diagnostico
-
-
