@@ -102,9 +102,11 @@ def conect_animal():
 
 def update_aguada(setle):
         df_devis= mongo_data('devices')
+        print(df_devis.shape,'update devices')
         df_devis.deviceAnimalID=df_devis.deviceAnimalID.astype(str)
         data_devise = df_devis[df_devis.deviceType=='PUNTO FIJO'] 
         aguadas= conect_animal()
+        print(aguadas.shape,'update')
         x= aguadas[aguadas['animalSettlement']==setle]
         agua =data_devise[data_devise.deviceAnimalID.isin([str(i) for i in x._id])]
         return agua

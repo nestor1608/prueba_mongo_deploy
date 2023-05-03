@@ -1,5 +1,5 @@
 import pandas as pd 
-from funciones_app import data_devices,dataframe_interview_vaca,select_data_by_date,update_aguada,select_data_by_dates
+from funciones_app import data_devices,dataframe_interview_vaca,select_data_by_date, update_aguada,select_data_by_dates
 from conect_datarows import setle_clean,add_dormida_column,separador_por_dia,diagnostico_devices
 from ml_streamlit import predict_model
 from geopy import Point
@@ -37,9 +37,9 @@ def agua_click(data,vaca,fecha,setle):
 
 def agua_clicks(data,vaca,fecha,fecha2,setle):
     aguadas=update_aguada(setle)
-    print(aguadas.shape)
+    print(aguadas.shape,'agua')
     dtf= gps_aguada(aguadas,data)
-    print(dtf.shape)
+    print(dtf.shape,'agua gps')
     prueba= {}
     for i,d in dtf.iterrows():
         prueba[i]=filter_area_peri(data,d['dataRowData_lat'] , d['dataRowData_lng'],4.0)
