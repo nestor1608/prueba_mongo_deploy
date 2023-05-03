@@ -106,7 +106,7 @@ def update_aguada(setle):
         data_devise = df_devis[df_devis.deviceType=='PUNTO FIJO'] 
         aguadas= conect_animal()
         x= aguadas[aguadas['animalSettlement']==setle]
-        agua =data_devise[data_devise.deviceAnimalID.isin(x._id)]
+        agua =data_devise[data_devise.deviceAnimalID.isin([str(i) for i in x._id])]
         return agua
 
 

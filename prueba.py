@@ -37,7 +37,9 @@ def agua_click(data,vaca,fecha,setle):
 
 def agua_clicks(data,vaca,fecha,fecha2,setle):
     aguadas=update_aguada(setle)
+    print(aguadas.shape)
     dtf= gps_aguada(aguadas,data)
+    print(dtf.shape)
     prueba= {}
     for i,d in dtf.iterrows():
         prueba[i]=filter_area_peri(data,d['dataRowData_lat'] , d['dataRowData_lng'],4.0)
