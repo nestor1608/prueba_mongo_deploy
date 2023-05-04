@@ -110,7 +110,8 @@ def update_aguada(setle):
         print(type(aguadas.animalSettlement.values[0]),'tipo prueba')
         print(aguadas.shape,'update agudas animal')
         print(setle)
-        print(aguadas)
+        print(aguadas.columns)
+        print(aguadas.animalSettlement)
         x= aguadas[aguadas.animalSettlement == setle]
         print(x._id.values,'x index aguada')
         print(x.shape,'x')
