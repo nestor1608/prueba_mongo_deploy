@@ -48,7 +48,7 @@ def setle_list():
     setle_n = setle_n[['_id','hectares','name','latitud_c','longitud_c']]
     mascara= setle_n._id.isin(['63ff75624c2d6d003084c117','642b1d27cc00091984864f0a','642c0b596490e600305e1819'])#63e6454922ee080030ba8728
     setle_n.drop(setle_n[mascara].index,inplace=True)
-    return setle_n
+    return setle_n.sort_values('hectares',ascending=False)
 
 def setle_clean(select):
     de= db['settlements']
