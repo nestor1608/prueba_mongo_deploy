@@ -20,7 +20,7 @@ def mongo_data(collection):
     mongoColle= db[collection]
     data= list(mongoColle.find())
     df= pd.json_normalize(data,sep='_')
-    #df._id=df._id.astype(str)
+    df._id=df._id.astype(str)
     return df
 
 
