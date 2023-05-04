@@ -54,13 +54,14 @@ def result_select(data_values,data):
     data_values.agua= data_values.agua.fillna(0)
     return data_values
 
-def conducta_vaca_periodo(df, df_para_aguada,uuid, nombre, fecha_init: str, fecha_fin : str):
+def conducta_vaca_periodo(df, df_para_aguada, uuid, nombre, fecha_init: str, fecha_fin : str):
     data_finca= setle_clean(nombre)
     df_gp = dataframe_interview_vaca(df)
     df_gp = predict_model(df_gp)
     df_gp = add_dormida_column(df_gp, 1, 20, 6)
-    # d = agua_clicks(df_para_aguada,uuid,fecha_init,fecha_fin,str(data_finca._id.values[0]))
-    # df_gp = result_select(df_gp,d)
+    print(str(data_finca._id.values[0]))
+    d = agua_clicks(df_para_aguada,uuid,fecha_init,fecha_fin,str(data_finca._id.values[0]))
+    df_gp = result_select(df_gp,d)
     resumen = separador_por_dia(df_gp)
     diagnostico = diagnostico_devices(resumen)
     df_gp = df_gp.drop(columns=['fecha'])
