@@ -104,6 +104,7 @@ def update_aguada(setle):
         print(df_devis.shape,'update devices')
         df_devis.deviceAnimalID=df_devis.deviceAnimalID.astype(str)
         data_devise = df_devis[df_devis.deviceType=='PUNTO FIJO'] 
+        print(df_devis.columns)
         aguadas= conect_animal()
         aguadas.animalSettlement=aguadas.animalSettlement.apply(lambda x:str(x))
         print(type(aguadas.animalSettlement.values[0]),'tipo prueba')
@@ -112,7 +113,7 @@ def update_aguada(setle):
         print(aguadas.columns)
         print(aguadas.animalSettlement)
         x= aguadas[aguadas.animalSettlement == setle]
-        print(x._id.values,'x index aguada')
+        print(x.animalSettlement,'x index aguada')
         print(x.shape,'x')
         agua =data_devise[data_devise.deviceAnimalID.isin(x._id.values)]
         print(agua,'update data')
