@@ -18,7 +18,7 @@ setle= setle_list()# arroja dataframe arreglado de setle---
 
 
 
-st.dataframe(setle[['name','hectares','latitud_c','longitud_c']],use_container_width=True)
+st.dataframe(setle,use_container_width=True)
 
 
 st.write('Favor de aplicar los filtros necesarios para su consulta:')
@@ -143,7 +143,7 @@ if fi_time.shape[0]!=0:
         st.table(fi_time[['dataRowData_lng','dataRowData_lat' ]])
         
 
-    tabla_datos,tabla_resumen,tabla_diag= conducta_vaca_periodo(time_week, df_gps,select, select_sl ,date_week[0],date_week[1])# ACAAA ESTA CREADO EL DATAFRAME CON LOS VALORES
+    tabla_datos,tabla_resumen,tabla_diag= conducta_vaca_periodo(time_week, on_perimetro,select, select_sl ,date_week[0],date_week[1])# ACAAA ESTA CREADO EL DATAFRAME CON LOS VALORES
     
 
 
