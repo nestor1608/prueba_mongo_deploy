@@ -107,7 +107,7 @@ def update_aguada(setle):
         data_devise = df_devis[df_devis.deviceType=='PUNTO FIJO'] 
         aguadas= conect_animal()
         aguadas.animalSettlement=aguadas.animalSettlement.apply(lambda x:str(x))
-        print(type(aguadas.animalSettlement[0]))
+        print(type(aguadas.animalSettlement))
         print(aguadas.shape,'update agudas animal')
         print(setle)
         x= aguadas[aguadas['animalSettlement']==setle]
@@ -183,6 +183,7 @@ def filter_area_perimetro(data:pd.DataFrame,setle:str):
     per_kilo= perimetro_aprox(hectareas)
     circulo= punto_referencia.buffer(per_kilo/111.32) # valor 1 grado aprox en kilometro en el ecuador 
     on_perimetro= gdf[gdf.geometry.within(circulo)]
+    print(setle._id.values[0])
     agua = update_aguada(setle._id.values[0])
     on_perimetro = on_perimetro.drop(on_perimetro[on_perimetro['UUID'].isin(agua.deviceMACAddress.unique())].index)
     return on_perimetro
