@@ -26,13 +26,13 @@ def gps_aguada(aguadas,df):
     dtf= pd.DataFrame(data).transpose()
     return dtf
 
-def agua_click(data,vaca,fecha,setle):
-    aguadas=update_aguada(setle)
-    dtf= gps_aguada(aguadas,data)
-    data_p=filter_area_peri(data, dtf.iloc[0, 0], dtf.iloc[0, 1],4.0)
-    day_p=select_data_by_date(data_p,fecha)
-    p=data_devices(day_p,vaca)
-    return p
+# def agua_click(data,vaca,fecha,setle):
+#     aguadas=update_aguada(setle)
+#     dtf= gps_aguada(aguadas,data)
+#     data_p=filter_area_peri(data, dtf.iloc[0, 0], dtf.iloc[0, 1],4.0)
+#     day_p=select_data_by_date(data_p,fecha)
+#     p=data_devices(day_p,vaca)
+#     return p
 
 
 def agua_clicks(data,vaca,fecha,fecha2,setle):
