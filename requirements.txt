@@ -7,3 +7,4 @@ shapely
 datetime
 scikit-learn
 pymongo
+streamlit_pdf_report

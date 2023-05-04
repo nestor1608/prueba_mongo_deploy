@@ -48,5 +48,5 @@ def predict_model(data):
     data['cluster'] = perro
     dist_1=data[data['cluster']== 1].p_distancia.sum()
     dist_0=data[data['cluster']== 0].p_distancia.sum()
-    if dist_0 < dist_1 : data['cluster'] = data['cluster'].map({1:0,0:1})  
+    if dist_1 < dist_0 : data['cluster'] = data['cluster'].map({1:0,0:1})  
     return data
