@@ -1,4 +1,4 @@
-python==3.10.5
+pip
 pandas==1.5.1
 geopy
 geopandas
