@@ -111,7 +111,7 @@ def update_aguada(setle):
         print(type(setle))
         print(aguadas.columns)
         print(aguadas.animalSettlement)
-        x= aguadas[aguadas.animalSettlement == '63ecf27ba9f1a40025792acf']
+        x= aguadas[aguadas.animalSettlement == setle]#'63ecf27ba9f1a40025792acf'
         print(x.animalSettlement,'x index aguada')
         print(x.shape,'x')
         agua =data_devise[data_devise.deviceAnimalID.isin(x._id.values)]
