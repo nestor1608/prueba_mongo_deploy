@@ -23,9 +23,26 @@ def mongo_data(collection):
     df._id=df._id.astype(str)
     return df
 
+def mongo_data_setle(collection):
+    mongoColle= db[collection]
+    data= list(mongoColle.find())
+    df= pd.json_normalize(data,sep='_')
+    df._id=df._id.astype(str)
+    cambio={'643d68845d392b976ac0228a':'642b1d27cc00091984864f0a',	
+            '643d68845d392b976ac02286':'63e6454922ee080030ba8728',	
+            '643d68845d392b976ac02289':'63ff75624c2d6d003084c117',	
+            '643d68845d392b976ac02283':'620e6e5e60543d0026a01f0e',	
+            '643d68845d392b976ac02284':'63877cd7e1ed590030662d0a',	
+            '643d68845d392b976ac02288':'63ecf27ba9f1a40025792acf',	
+            '643d68845d392b976ac02285':'63e641fc22ee080030ba838b',	
+            '643d68845d392b976ac0228b':'642c0b596490e600305e1819',	
+            '643d68845d392b976ac02287':'63efd78d65980f4378711b6f'}
+    df._id = df._id.map(cambio)
+    return df
+
 
 def setle_list():
-    setle_n= mongo_data('settlements')
+    setle_n= mongo_data_setle('settlements')
     setle_n['latitud_c']=setle_n.centralPoint.apply(lambda x: x[0]['lat'] if 'lat' in x[0] else None)
     setle_n['longitud_c']=setle_n.centralPoint.apply(lambda x: x[0]['lng'] if 'lng' in x[0] else None)
     setle_n = setle_n[['_id','hectares','name','latitud_c','longitud_c']]
@@ -38,24 +55,21 @@ def setle_clean(select):
     de= db['settlements']
     obj= de.find_one({'name':select})
     df_setle= pd.json_normalize(obj,sep='_')
+    cambio={'643d68845d392b976ac0228a':'642b1d27cc00091984864f0a',	
+            '643d68845d392b976ac02286':'63e6454922ee080030ba8728',	
+            '643d68845d392b976ac02289':'63ff75624c2d6d003084c117',	
+            '643d68845d392b976ac02283':'620e6e5e60543d0026a01f0e',	
+            '643d68845d392b976ac02284':'63877cd7e1ed590030662d0a',	
+            '643d68845d392b976ac02288':'63ecf27ba9f1a40025792acf',	
+            '643d68845d392b976ac02285':'63e641fc22ee080030ba838b',	
+            '643d68845d392b976ac0228b':'642c0b596490e600305e1819',	
+            '643d68845d392b976ac02287':'63efd78d65980f4378711b6f'}
+    df_setle._id= df_setle._id.map(cambio)
     df_setle['latitud_c']=df_setle.centralPoint.apply(lambda x: x[0]['lat'] if 'lat' in x[0] else None)
     df_setle['longitud_c']=df_setle.centralPoint.apply(lambda x: x[0]['lng'] if 'lng' in x[0] else None)
     setle_n = df_setle[['_id','hectares','registerNumber','headsCount','name','latitud_c','longitud_c']]
     return setle_n
 
-# def selec_setle(data,select):
-#     df_setle = data[data._id== select]
-#     return df_setle
-
-# def conect_animal():
-#         df_animal=mongo_data('animals')
-#         df_animal['animalSettlement']=df_animal['animalSettlement'].apply(lambda x:x[0])
-#         df_animal.animalSettlement=df_animal.animalSettlement.astype(str)
-#         return df_animal
-
-# def selec_anim(data,select):
-#     df_anim= data[data._id==select]
-#     return df_anim
 
 
 def obtener_fecha_inicio_fin(semana):
