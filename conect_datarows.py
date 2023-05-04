@@ -28,8 +28,8 @@ def setle_list():
     setle_n= mongo_data('settlements')
     setle_n['latitud_c']=setle_n.centralPoint.apply(lambda x: x[0]['lat'] if 'lat' in x[0] else None)
     setle_n['longitud_c']=setle_n.centralPoint.apply(lambda x: x[0]['lng'] if 'lng' in x[0] else None)
-    #setle_n = setle_n[['_id','hectares','name','latitud_c','longitud_c']]
-    #setle_n._id= setle_n._id.apply(lambda x: str(x))
+    setle_n = setle_n[['_id','hectares','name','latitud_c','longitud_c']]
+    setle_n._id= setle_n._id.apply(lambda x: str(x))
     mascara= setle_n._id.isin(['63ff75624c2d6d003084c117','642b1d27cc00091984864f0a','642c0b596490e600305e1819'])
     setle_n=setle_n.drop(setle_n[mascara].index)
     return setle_n

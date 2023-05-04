@@ -105,7 +105,7 @@ def update_aguada(setle):
         data_devise = df_devis[df_devis.deviceType=='PUNTO FIJO'] 
         print(df_devis.columns)
         aguadas= conect_animal()
-        #aguadas.animalSettlement = aguadas.animalSettlement.apply(lambda x:str(x))
+        aguadas.animalSettlement = aguadas.animalSettlement.apply(lambda x:str(x))
         print(type(aguadas.animalSettlement.values[0]),'tipo prueba')
         print(aguadas.shape,'update agudas animal')
         print(type(setle))
