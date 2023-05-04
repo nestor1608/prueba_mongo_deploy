@@ -108,6 +108,8 @@ def update_aguada(setle):
         aguadas= conect_animal()
         print(aguadas.shape,'update')
         x= aguadas[aguadas['animalSettlement']==setle]
+        
+        print(x.shape,'x')
         agua =data_devise[data_devise.deviceAnimalID.isin([str(i) for i in x._id])]
         print(agua,'update data')
         return agua
@@ -130,7 +132,7 @@ def select_data_by_date(df: pd.DataFrame, fecha: str) -> pd.DataFrame:
 
     # Seleccionar solo las filas correspondientes a la fecha especificada
     fecha_deseada = pd.to_datetime(fecha)
-    nuevo_df = df.loc[df['createdAt'].dt.date == fecha_deseada]
+    nuevo_df = df.loc[df['createdAt'].dt.date == fecha_deseada.date()]
 
     return nuevo_df
 

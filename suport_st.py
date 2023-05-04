@@ -51,7 +51,7 @@ def graf_aguada(data,fig):
     ))
     return fig
 
-def grafic_map(data, list_vacas, lat_orig, lng_orig, fig):
+def grafic_map(data, list_vacas, fig):
     colores=[]
     for i in list_vacas:
         color = random_color()
