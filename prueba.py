@@ -26,20 +26,10 @@ def gps_aguada(aguadas,df):
     dtf= pd.DataFrame(data).transpose()
     return dtf
 
-# def agua_click(data,vaca,fecha,setle):
-#     aguadas=update_aguada(setle)
-#     dtf= gps_aguada(aguadas,data)
-#     data_p=filter_area_peri(data, dtf.iloc[0, 0], dtf.iloc[0, 1],4.0)
-#     day_p=select_data_by_date(data_p,fecha)
-#     p=data_devices(day_p,vaca)
-#     return p
-
 
 def agua_clicks(data,vaca,fecha,fecha2,setle):
     aguadas=update_aguada(setle)
-    print(aguadas.shape,'agua')
     dtf= gps_aguada(aguadas,data)
-    print(dtf.shape,'agua gps')
     prueba= {}
     for i,d in dtf.iterrows():
         prueba[i]=filter_area_peri(data,d['dataRowData_lat'] , d['dataRowData_lng'],4.0)
@@ -59,7 +49,6 @@ def conducta_vaca_periodo(df, df_para_aguada, uuid, nombre, fecha_init: str, fec
     df_gp = dataframe_interview_vaca(df)
     df_gp = predict_model(df_gp)
     df_gp = add_dormida_column(df_gp, 1, 20, 6)
-    print(str(data_finca._id.values[0]))
     d = agua_clicks(df_para_aguada,uuid,fecha_init,fecha_fin,str(data_finca._id.values[0]))
     df_gp = result_select(df_gp,d)
     resumen = separador_por_dia(df_gp)

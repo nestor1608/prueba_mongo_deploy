@@ -96,26 +96,16 @@ def conect_animal():
         df_animal=mongo_data('animals')
         df_animal['animalSettlement']=df_animal['animalSettlement'].apply(lambda x:str(x[0]))
         result= df_animal[(df_animal.caravanaNumber.str.contains('AGUADA'))|(df_animal.caravanaNumber.str.contains('PUNTO_FIJO'))]#lo use para extraer un csv con aguadas y puntos fijos
-        return df_animal
+        return result
 
 def update_aguada(setle):
         df_devis= mongo_data('devices')
-        print(df_devis.shape,'update devices')
         df_devis.deviceAnimalID=df_devis.deviceAnimalID.astype(str)
         data_devise = df_devis[df_devis.deviceType=='PUNTO FIJO'] 
-        print(df_devis.columns)
         aguadas= conect_animal()
-        aguadas.animalSettlement = aguadas.animalSettlement.apply(lambda x:str(x))
-        print(type(aguadas.animalSettlement.values[0]),'tipo prueba')
-        print(aguadas.shape,'update agudas animal')
-        print(type(setle))
-        print(aguadas.columns)
-        print(aguadas.animalSettlement)
+        aguadas.animalSettlement = aguadas.animalSettlement.apply(lambda x:str(x))  
         x= aguadas[aguadas.animalSettlement == setle]
-        print(x.animalSettlement,'x index aguada')
-        print(x.shape,'x')
         agua =data_devise[data_devise.deviceAnimalID.isin(x._id.values)]
-        print(agua,'update data')
         return agua
 
 
@@ -196,7 +186,6 @@ def dataframe_interview_vaca(data): # tratar de filtrar por perimetro porque si 
     data_inter= []
     data_in=[]
     data_fin=[]
-
     for i in range(0,data.shape[0]+1):
         try:
             dista_km= great_circle(tuple(data.iloc[i][['dataRowData_lat','dataRowData_lng']].values),tuple(data.iloc[i+1][['dataRowData_lat','dataRowData_lng']].values)).kilometers

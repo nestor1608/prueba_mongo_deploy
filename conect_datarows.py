@@ -46,7 +46,7 @@ def setle_list():
     setle_n['latitud_c']=setle_n.centralPoint.apply(lambda x: x[0]['lat'] if 'lat' in x[0] else None)
     setle_n['longitud_c']=setle_n.centralPoint.apply(lambda x: x[0]['lng'] if 'lng' in x[0] else None)
     setle_n = setle_n[['_id','hectares','name','latitud_c','longitud_c']]
-    mascara= setle_n._id.isin(['63ff75624c2d6d003084c117','642b1d27cc00091984864f0a','642c0b596490e600305e1819'])#63e6454922ee080030ba8728
+    mascara= setle_n._id.isin(['63ff75624c2d6d003084c117','642b1d27cc00091984864f0a','642c0b596490e600305e1819','63e6454922ee080030ba8728'])#
     setle_n.drop(setle_n[mascara].index,inplace=True)
     return setle_n.sort_values('hectares',ascending=False)
 
@@ -131,9 +131,9 @@ def acumular_diferencia_tiempo(df, cluster_rum, cluster_rum_2):
     for i, row in df.iterrows():
         if row["dormida"] == "SI" and row['agua'] == 0:
             df.at[i, "durmiendo"] += ((row["point_next"] - row["point_ini"]).total_seconds())/3600
-        elif row["cluster"] == 1 and row["dormida"] == "NO" and row['agua'] == 0:
+        elif row["cluster"] == cluster_rum and row["dormida"] == "NO" and row['agua'] == 0:
             df.at[i, "rumeando"] += ((row["point_next"] - row["point_ini"]).total_seconds())/3600
-        elif row["cluster"] == 0 and row['agua'] == 0:
+        elif row["cluster"] == cluster_rum_2 and row['agua'] == 0:
             df.at[i, "pastando"] += ((row["point_next"] - row["point_ini"]).total_seconds())/3600
         elif row['agua'] == 1 :
             df.at[i, "bebiendo"] += ((row["point_next"] - row["point_ini"]).total_seconds())/3600
@@ -148,7 +148,6 @@ def acumular_diferencia_tiempo(df, cluster_rum, cluster_rum_2):
     })
     
     return total_df
-
 
 def separador_por_dia(df):
     df['fecha']= pd.to_datetime(df.point_ini).dt.date
@@ -189,3 +188,17 @@ def diagnostico_devices(df):
         'cant_registro':can_r,
     })
     return diag
+
+
+def agregar_iths(data,asentamiento_id):
+    df_setith= mongo_data('settlementithcounts')
+    df_setith.settlementId =df_setith.settlementId.astype(str)
+    pru= df_setith[df_setith.settlementId ==asentamiento_id]
+    aux= {}
+    for fecha in data.point_ini.dt.date.unique():
+        prueba=pru[pru.createdAt.dt.date== fecha]
+        dataq=data[data.point_ini.dt.date  == fecha]
+        aux[fecha]= pd.merge(dataq,prueba[['createdAt', 'ITH']],left_on=dataq.point_ini.dt.hour, right_on=prueba['createdAt'].dt.hour)
+    prueb= pd.concat(aux.values())  
+    prueb= prueb.drop(columns=['key_0','createdAt'])  
+    return prueb

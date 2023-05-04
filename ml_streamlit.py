@@ -46,4 +46,7 @@ def predict_model(data):
     x_test = data[['velocidad','aceleracion']].values#'p_distancia',
     perro = kmeans.predict(x_test)
     data['cluster'] = perro
+    dist_1=data[data['cluster']== 1].p_distancia.sum()
+    dist_0=data[data['cluster']== 0].p_distancia.sum()
+    if dist_0 < dist_1 : data['cluster'] = data['cluster'].map({1:0,0:1})  
     return data
