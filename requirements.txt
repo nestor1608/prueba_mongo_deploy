@@ -1,5 +1,5 @@
 pip
-pandas==1.5.1
+pandas
 geopy
 geopandas
 plotly
