@@ -111,7 +111,7 @@ def update_aguada(setle):
         print(aguadas.shape,'update')
         print(setle)
         x= aguadas[aguadas['animalSettlement']==setle]
-        
+        print(x._id.values,'x index aguada')
         print(x.shape,'x')
         agua =data_devise[data_devise.deviceAnimalID.isin(x._id.values)]
         print(agua,'update data')
@@ -179,7 +179,7 @@ def filter_area_perimetro(data:pd.DataFrame,setle:str):
     setle_lat=setle['latitud_c'].values[0]
     setle_lng=setle['longitud_c'].values[0]
     hectareas=setle['hectares'].values[0]
-    punto_referencia= Point(setle_lng,setle_lat)	
+    punto_referencia= Point(setle_lat,setle_lng)	
     per_kilo= perimetro_aprox(hectareas)
     circulo= punto_referencia.buffer(per_kilo/111.32) # valor 1 grado aprox en kilometro en el ecuador 
     on_perimetro= gdf[gdf.geometry.within(circulo)]
