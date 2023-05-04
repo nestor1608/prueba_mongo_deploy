@@ -95,8 +95,7 @@ def count_day_hour(data):
 
 def conect_animal():
         df_animal=mongo_data('animals')
-        df_animal['animalSettlement']=df_animal['animalSettlement'].apply(lambda x:str(x))
-        df_animal.animalSettlement=df_animal.animalSettlement.astype(str)
+        df_animal['animalSettlement']=df_animal['animalSettlement'].apply(lambda x:str(x[0]))
         result= df_animal[(df_animal.caravanaNumber.str.contains('AGUADA'))|(df_animal.caravanaNumber.str.contains('PUNTO_FIJO'))]#lo use para extraer un csv con aguadas y puntos fijos
         return result
 
