@@ -47,15 +47,15 @@ def setle_clean(select):
 #     df_setle = data[data._id== select]
 #     return df_setle
 
-def conect_animal():
-        df_animal=mongo_data('animals')
-        df_animal['animalSettlement']=df_animal['animalSettlement'].apply(lambda x:x[0])
-        df_animal.animalSettlement=df_animal.animalSettlement.astype(str)
-        return df_animal
+# def conect_animal():
+#         df_animal=mongo_data('animals')
+#         df_animal['animalSettlement']=df_animal['animalSettlement'].apply(lambda x:x[0])
+#         df_animal.animalSettlement=df_animal.animalSettlement.astype(str)
+#         return df_animal
 
-def selec_anim(data,select):
-    df_anim= data[data._id==select]
-    return df_anim
+# def selec_anim(data,select):
+#     df_anim= data[data._id==select]
+#     return df_anim
 
 
 def obtener_fecha_inicio_fin(semana):
