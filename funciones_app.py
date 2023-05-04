@@ -67,8 +67,6 @@ def obtener_fecha_inicio_fin(semana):
 
 
 
-
-
 def week_data_filter(data,fecha):
     
     if isinstance(fecha,int):
@@ -95,29 +93,46 @@ def count_day_hour(data):
 
 def conect_animal():
         df_animal=mongo_data('animals')
-        df_animal['animalSettlement']=df_animal['animalSettlement'].apply(lambda x:str(x[0]))
-        #result= df_animal[(df_animal.caravanaNumber.str.contains('AGUADA'))|(df_animal.caravanaNumber.str.contains('PUNTO_FIJO'))]#lo use para extraer un csv con aguadas y puntos fijos
-        return df_animal
+        df_animal['animalSettlement']=df_animal['animalSettlement'].apply(lambda x:x[0])
+        df_animal.animalSettlement=df_animal.animalSettlement.astype(str)
+        result= df_animal[(df_animal.caravanaNumber.str.contains('AGUADA'))|(df_animal.caravanaNumber.str.contains('PUNTO_FIJO'))]#lo use para extraer un csv con aguadas y puntos fijos
+        return result
+
 
 def update_aguada(setle):
         df_devis= mongo_data('devices')
-        print(df_devis.shape,'update devices')
         df_devis.deviceAnimalID=df_devis.deviceAnimalID.astype(str)
         data_devise = df_devis[df_devis.deviceType=='PUNTO FIJO'] 
-        print(df_devis.columns)
         aguadas= conect_animal()
-        aguadas.animalSettlement = aguadas.animalSettlement.apply(lambda x:str(x))
-        print(type(aguadas.animalSettlement.values[0]),'tipo prueba')
-        print(aguadas.shape,'update agudas animal')
-        print(setle)
-        print(aguadas.columns)
-        print(aguadas.animalSettlement)
-        x= aguadas[aguadas.animalSettlement == setle]
-        print(x.animalSettlement,'x index aguada')
-        print(x.shape,'x')
-        agua =data_devise[data_devise.deviceAnimalID.isin(x._id.values)]
-        print(agua,'update data')
+        x= aguadas[aguadas['animalSettlement']==setle]
+        agua =data_devise[data_devise.deviceAnimalID.isin(x._id)]
         return agua
+
+# def conect_animal():
+#         df_animal=mongo_data('animals')
+#         df_animal['animalSettlement']=df_animal['animalSettlement'].apply(lambda x:str(x[0]))
+#         #result= df_animal[(df_animal.caravanaNumber.str.contains('AGUADA'))|(df_animal.caravanaNumber.str.contains('PUNTO_FIJO'))]#lo use para extraer un csv con aguadas y puntos fijos
+#         return df_animal
+
+# def update_aguada(setle):
+#         df_devis= mongo_data('devices')
+#         print(df_devis.shape,'update devices')
+#         df_devis.deviceAnimalID=df_devis.deviceAnimalID.astype(str)
+#         data_devise = df_devis[df_devis.deviceType=='PUNTO FIJO'] 
+#         print(df_devis.columns)
+#         aguadas= conect_animal()
+#         aguadas.animalSettlement = aguadas.animalSettlement.apply(lambda x:str(x))
+#         print(type(aguadas.animalSettlement.values[0]),'tipo prueba')
+#         print(aguadas.shape,'update agudas animal')
+#         print(setle)
+#         print(aguadas.columns)
+#         print(aguadas.animalSettlement)
+#         x= aguadas[aguadas.animalSettlement == setle]
+#         print(x.animalSettlement,'x index aguada')
+#         print(x.shape,'x')
+#         agua =data_devise[data_devise.deviceAnimalID.isin(x._id.values)]
+#         print(agua,'update data')
+#         return agua
 
 
 def select_data_by_date(df: pd.DataFrame, fecha: str) -> pd.DataFrame:
