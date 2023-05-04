@@ -96,8 +96,8 @@ def count_day_hour(data):
 def conect_animal():
         df_animal=mongo_data('animals')
         df_animal['animalSettlement']=df_animal['animalSettlement'].apply(lambda x:str(x[0]))
-        result= df_animal[(df_animal.caravanaNumber.str.contains('AGUADA'))|(df_animal.caravanaNumber.str.contains('PUNTO_FIJO'))]#lo use para extraer un csv con aguadas y puntos fijos
-        return result
+        #result= df_animal[(df_animal.caravanaNumber.str.contains('AGUADA'))|(df_animal.caravanaNumber.str.contains('PUNTO_FIJO'))]#lo use para extraer un csv con aguadas y puntos fijos
+        return df_animal
 
 def update_aguada(setle):
         df_devis= mongo_data('devices')
@@ -106,7 +106,7 @@ def update_aguada(setle):
         data_devise = df_devis[df_devis.deviceType=='PUNTO FIJO'] 
         print(df_devis.columns)
         aguadas= conect_animal()
-        aguadas.animalSettlement=aguadas.animalSettlement.apply(lambda x:str(x))
+        aguadas.animalSettlement = aguadas.animalSettlement.apply(lambda x:str(x))
         print(type(aguadas.animalSettlement.values[0]),'tipo prueba')
         print(aguadas.shape,'update agudas animal')
         print(setle)
