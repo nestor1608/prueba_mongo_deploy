@@ -1,4 +1,3 @@
-pip
 pandas
 geopy
 geopandas
