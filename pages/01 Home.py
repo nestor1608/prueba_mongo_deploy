@@ -3,8 +3,8 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
-from conect_datarows import obtener_fecha_inicio_fin, df_gps, setle_list
 from funciones_app import dataframe_interview_vaca,data_devices,week_data_filter, filter_area_perimetro
+from conect_datarows import obtener_fecha_inicio_fin, df_gps, setle_list
 from prueba import conducta_vaca_periodo
 from suport_st import grafic_map,mapbox_access_token
 import plotly.express as px
