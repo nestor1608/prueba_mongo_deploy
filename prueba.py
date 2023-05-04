@@ -36,7 +36,7 @@ def gps_aguada(aguadas,df):
 
 
 def agua_clicks(data,vaca,fecha,fecha2,setle):
-    aguadas=update_aguada(setle)
+    aguadas=update_aguada('63ecf27ba9f1a40025792acf')
     print(aguadas.shape,'agua')
     dtf= gps_aguada(aguadas,data)
     print(dtf.shape,'agua gps')
