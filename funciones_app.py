@@ -179,7 +179,7 @@ def filter_area_perimetro(data:pd.DataFrame,setle:str):
     setle_lat=setle['latitud_c'].values[0]
     setle_lng=setle['longitud_c'].values[0]
     hectareas=setle['hectares'].values[0]
-    punto_referencia= Point(setle_lat,setle_lng)	
+    punto_referencia= Point(setle_lng,setle_lat)	
     per_kilo= perimetro_aprox(hectareas)
     circulo= punto_referencia.buffer(per_kilo/111.32) # valor 1 grado aprox en kilometro en el ecuador 
     on_perimetro= gdf[gdf.geometry.within(circulo)]
