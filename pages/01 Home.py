@@ -80,26 +80,25 @@ if on_perimetro.shape[0]!=0:
         sep_time=time_week[time_week['createdAt'].dt.date ==day_select].groupby(time_week.createdAt.dt.date).agg({'UUID':'count'}).rename(columns={'UUID':'count_register'}).reset_index().rename(columns={'createdAt':'day'})
         sep_time.day= pd.to_datetime(sep_time.day)
         day=sep_time.day.dt.date.values
+        
+        date_week= obtener_fecha_inicio_fin(time_week.iloc[-1][['createdAt']].values[0])
+        st.subheader(f'Fecha de Inicio: {date_week[0]}')
+        st.subheader(f'Fecha de fin: {date_week[1]}')
+        
+
+        fi_time= time_week[time_week['createdAt'].dt.date ==day_select]
+
+
+        val_vaca= dataframe_interview_vaca(fi_time)
+        val_vaca= agregar_iths(val_vaca,setle[setle.name==select_sl]._id.values[0])
+
+        st.dataframe(val_vaca,use_container_width=True)
     else:
         st.warning('No hay datos para esta semana cambie la semana seleccionada')
 
 
 
-    try:
-        date_week= obtener_fecha_inicio_fin(time_week.iloc[-1][['createdAt']].values[0])
-        st.subheader(f'Fecha de Inicio: {date_week[0]}')
-        st.subheader(f'Fecha de fin: {date_week[1]}')
-    except IndexError:
-        st.warning('No hay datos para estos momento del dia')
 
-
-    fi_time= time_week[time_week['createdAt'].dt.date ==day_select]
-
-
-    val_vaca= dataframe_interview_vaca(fi_time)
-    val_vaca= agregar_iths(val_vaca,setle[setle.name==select_sl]._id.values[0])
-
-    st.dataframe(val_vaca,use_container_width=True)
 
 
     if st.button('Recorrido en Mapa') or fi_time.shape[0]==1:
