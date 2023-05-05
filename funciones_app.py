@@ -83,7 +83,7 @@ def get_range_week(year,week):
     dia_para= (week-1)*7
     semana_ini= enero_1 + timedelta(days=dia_para)
     ultimo_dia_semana = semana_ini + timedelta(days=6)
-    return semana_ini.strftime("%Y-%m-%d")
+    return semana_ini.strftime("%Y-%m-%d"),ultimo_dia_semana.strftime("%Y-%m-%d")
 
 def count_day_hour(data):
     sep_time=data.groupby([data.createdAt.dt.day_name(),data.createdAt.dt.hour]).agg({'UUID':'count'}).rename(columns={'UUID':'count_register'}).reset_index(level=[1]).rename(columns={'createdAt':'hours'}).reset_index().rename(columns={'createdAt':'day'})

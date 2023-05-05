@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from funciones_app import dataframe_interview_vaca,data_devices,week_data_filter, filter_area_perimetro,transform,get_range_week
+from funciones_app import dataframe_interview_vaca,data_devices,week_data_filter, filter_area_perimetro,transform,get_range_week,select_data_by_dates
 from conect_datarows import obtener_fecha_inicio_fin, df_gps, setle_list,agregar_iths
 from prueba import conducta_vaca_periodo,agua_click
 from suport_st import grafic_map,mapbox_access_token
@@ -52,9 +52,9 @@ if on_perimetro.shape[0]!=0:
         week= st.slider('Selecione semana',int(data_week['createdAt'].min()) ,int(data_week['createdAt'].max()) )
 
 
-        inici_semana= get_range_week(dt_vaca.createdAt.dt.year.unique()[0],int(week))
-        st.write(week,'-',inici_semana)
-        time_week= week_data_filter(dt_vaca,inici_semana) # SE RELAIZA EL DATAFRAME POR LA SEMANA 
+        inici_semana, fin_semena= get_range_week(dt_vaca.createdAt.dt.year.unique()[0],int(week))
+        st.write(week,'-',inici_semana,'->',fin_semena)
+        time_week= select_data_by_dates(dt_vaca,inici_semana,fin_semena) # SE RELAIZA EL DATAFRAME POR LA SEMANA 
         st.write(f'{time_week.shape}')
         if time_week.shape[0]!=0:
             sep_time=time_week['createdAt'].groupby(dt_vaca.createdAt.dt.date).aggregate(['count']).rename(columns={'count':'count_register'}).reset_index()
