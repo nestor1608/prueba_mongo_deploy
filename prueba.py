@@ -18,9 +18,7 @@ def filter_area_peri(data,latitud,longitud,metro):
     return on_perimetro
 
 def gps_aguada(aguadas,df):
-    print(aguadas.shape,'gps _aguadas')
     movi_agu= df[df.UUID.isin(aguadas.deviceMACAddress.unique())]
-    print(movi_agu.shape, 'movi')
     data={}
     for i in aguadas.deviceMACAddress:
         data_de = data_devices(movi_agu,i)
