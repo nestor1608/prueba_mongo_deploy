@@ -37,7 +37,7 @@ if on_perimetro.shape[0]!=0:
     st.write(f'{dt_vaca.createdAt.dt.year.unique()}')
     data_week= dt_vaca['createdAt'].groupby(dt_vaca.createdAt.dt.strftime('%U')).aggregate(['count']).rename(columns={'count':'count_register'})
     data_week=data_week.reset_index()
-
+    data_week.createdAt = data_week.createdAt.apply(lambda x : int(x)-1)
 
     st.write('Visualización de los registros obtenidos a lo largo del tiempo de ese collar en esa locaclización en específica:')
 
@@ -52,7 +52,7 @@ if on_perimetro.shape[0]!=0:
         week= st.slider('Selecione semana',int(data_week['createdAt'].min()) ,int(data_week['createdAt'].max()) )
 
 
-        inici_semana, fin_semena= get_range_week(dt_vaca.createdAt.dt.year.unique()[0],int(week)-1)
+        inici_semana, fin_semena= get_range_week(dt_vaca.createdAt.dt.year.unique()[0],int(week))
         st.write(week,'-',inici_semana,'->',fin_semena)
         time_week= select_data_by_dates(dt_vaca,inici_semana,fin_semena) # SE RELAIZA EL DATAFRAME POR LA SEMANA 
         st.write(f'{time_week.shape}')
@@ -95,26 +95,26 @@ if on_perimetro.shape[0]!=0:
                 val_vaca= agregar_iths(val_vaca,setle[setle.name==select_sl]._id.values[0])
 
                 st.dataframe(val_vaca,use_container_width=True)
-            try: 
-                if st.button('Recorrido en Mapa') or fi_time.shape[0]==1:
-                        fig = go.Figure()
-                        grafic_map(fi_time,[select], fig)
-                        
-                        fig.update_layout(
-                            mapbox=dict(
-                                style='satellite', # Estilo de mapa satelital
-                                accesstoken=mapbox_access_token,
-                                zoom=12, # Nivel de zoom inicial del mapa
-                                center=dict(lat=fi_time.iloc[-1]['dataRowData_lat'] , lon= fi_time.iloc[-1]['dataRowData_lng']),
-                            ),
-                            showlegend=False
-                        )
-                        st.plotly_chart(fig)
-            except NameError or IndexError:
-                pass
+                try: 
+                    if st.button('Recorrido en Mapa') or fi_time.shape[0]==1:
+                            fig = go.Figure()
+                            grafic_map(fi_time,[select], fig)
+                            
+                            fig.update_layout(
+                                mapbox=dict(
+                                    style='satellite', # Estilo de mapa satelital
+                                    accesstoken=mapbox_access_token,
+                                    zoom=12, # Nivel de zoom inicial del mapa
+                                    center=dict(lat=fi_time.iloc[-1]['dataRowData_lat'] , lon= fi_time.iloc[-1]['dataRowData_lng']),
+                                ),
+                                showlegend=False
+                            )
+                            st.plotly_chart(fig)
+                except NameError or IndexError:
+                    pass
 
 
-                if fi_time.shape[0]> 1:
+                if fi_time.shape[0] > 1:
                     mean_dist, dist_sum =val_vaca[['distancia']].mean().round(3),val_vaca['distancia'].sum().round(3)
                     sum_tim, time_mean= val_vaca['tiempo'].sum().round(3),val_vaca['tiempo'].mean().round(3)
                     velo_mean=val_vaca['tiempo'].mean().round(3)
@@ -171,8 +171,6 @@ if on_perimetro.shape[0]!=0:
 
                     st.write('Dados los parámetros óptimos, en la siguiente tabla se puede concluir que el la calidad de la distribución del tiempo que dedicó a cada actividad')
                     st.dataframe(tabla_diag, use_container_width =True)
-
-
                 else:
                     st.table(fi_time[['dataRowData_lng','dataRowData_lat' ]])
                     

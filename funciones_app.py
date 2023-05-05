@@ -82,7 +82,7 @@ def get_range_week(year,week):
     enero_1= datetime(year,1,1)
     dia_para= (week-1)*7
     semana_ini= enero_1 + timedelta(days=dia_para)
-    ultimo_dia_semana = semana_ini + timedelta(days=7)
+    ultimo_dia_semana = semana_ini + timedelta(days=6)
     return semana_ini.strftime("%Y-%m-%d"),ultimo_dia_semana.strftime("%Y-%m-%d")
 
 def count_day_hour(data):
@@ -180,7 +180,6 @@ def filter_area_perimetro(data:pd.DataFrame,setle:str):
     per_kilo= perimetro_aprox(hectareas)
     circulo= punto_referencia.buffer(per_kilo/111.32) # valor 1 grado aprox en kilometro en el ecuador 
     on_perimetro= gdf[gdf.geometry.within(circulo)]
-    print(setle._id.values[0])
     agua = update_aguada(setle._id.values[0])
     on_perimetro = on_perimetro.drop(on_perimetro[on_perimetro['UUID'].isin(agua.deviceMACAddress.unique())].index)
     return on_perimetro
