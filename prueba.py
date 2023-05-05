@@ -18,7 +18,9 @@ def filter_area_peri(data,latitud,longitud,metro):
     return on_perimetro
 
 def gps_aguada(aguadas,df):
+    print(aguadas.shape,'gps _aguadas')
     movi_agu= df[df.UUID.isin(aguadas.deviceMACAddress.unique())]
+    print(movi_agu.shape, 'movi')
     data={}
     for i in aguadas.deviceMACAddress:
         data_de = data_devices(movi_agu,i)
@@ -31,7 +33,7 @@ def agua_click(data,vaca,fecha,setle):
     dtf= gps_aguada(aguadas,data)
     prueba= {}
     for i,d in dtf.iterrows():
-        prueba[i]=filter_area_peri(data,d['dataRowData_lat'] , d['dataRowData_lng'],4.0)
+        prueba[i]=filter_area_peri(data,d['dataRowData_lat'] , d['dataRowData_lng'],4.6)
     prueb=pd.concat(prueba.values())
     day_p= select_data_by_date(prueb,fecha)
     p= data_devices(day_p,vaca)

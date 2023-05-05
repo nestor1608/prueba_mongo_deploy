@@ -32,7 +32,7 @@ def perimetro_aprox(hectarea):
 
 
 def data_devices(data,uuid):
-    data=data[data.UUID==uuid]
+    data=data[data.UUID == uuid]
     return data
 
 def gps_data(data):
