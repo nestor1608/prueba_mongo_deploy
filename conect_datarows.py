@@ -131,9 +131,9 @@ def acumular_diferencia_tiempo(df, cluster_rum, cluster_rum_2):
     for i, row in df.iterrows():
         if row["dormida"] == "SI" and row['agua'] == 0:
             df.at[i, "durmiendo"] += ((row["point_next"] - row["point_ini"]).total_seconds())/3600
-        elif row["cluster"] == cluster_rum and row["dormida"] == "NO" and row['agua'] == 0:
+        elif row["cluster"] == 0 and row["dormida"] == "NO" and row['agua'] == 0:
             df.at[i, "rumeando"] += ((row["point_next"] - row["point_ini"]).total_seconds())/3600
-        elif row["cluster"] == cluster_rum_2 and row['agua'] == 0:
+        elif row["cluster"] == 1 and row['agua'] == 0:
             df.at[i, "pastando"] += ((row["point_next"] - row["point_ini"]).total_seconds())/3600
         elif row['agua'] == 1 :
             df.at[i, "bebiendo"] += ((row["point_next"] - row["point_ini"]).total_seconds())/3600

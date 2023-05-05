@@ -93,9 +93,9 @@ if on_perimetro.shape[0]!=0:
 
                 val_vaca= dataframe_interview_vaca(fi_time)
                 val_vaca= agregar_iths(val_vaca,setle[setle.name==select_sl]._id.values[0])
+                st.dataframe(val_vaca,use_container_width=True)
             else:
                 st.warning('Dia sin registros') 
-                st.dataframe(val_vaca,use_container_width=True)
                 try: 
                     if st.button('Recorrido en Mapa') or fi_time.shape[0]==1:
                             fig = go.Figure()

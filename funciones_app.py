@@ -211,6 +211,7 @@ def dataframe_interview_vaca(data): # tratar de filtrar por perimetro porque si 
     df = pd.DataFrame(df,columns=['point_ini','point_next','interval_time','distancia','velocidad','tiempo']) 
     df['aceleracion']= df['velocidad'].diff()/df['tiempo'].diff()
     df['p_distancia']= df['velocidad'] * df['tiempo'] 
+    df = df.fillna(0.0)
     return df
 
 
