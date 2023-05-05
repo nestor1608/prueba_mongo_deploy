@@ -52,10 +52,11 @@ if on_perimetro.shape[0]!=0:
         week= st.slider('Selecione semana',int(data_week['createdAt'].min()) ,int(data_week['createdAt'].max()) )
 
 
-        inici_semana, fin_semena= get_range_week(dt_vaca.createdAt.dt.year.unique()[0],int(week))
+        inici_semana, fin_semena= get_range_week(dt_vaca.createdAt.dt.year.unique()[0],int(week)-1)
         st.write(week,'-',inici_semana,'->',fin_semena)
         time_week= select_data_by_dates(dt_vaca,inici_semana,fin_semena) # SE RELAIZA EL DATAFRAME POR LA SEMANA 
         st.write(f'{time_week.shape}')
+        
         if time_week.shape[0]!=0:
             sep_time=time_week['createdAt'].groupby(dt_vaca.createdAt.dt.date).aggregate(['count']).rename(columns={'count':'count_register'}).reset_index()
 
@@ -86,7 +87,8 @@ if on_perimetro.shape[0]!=0:
             st.subheader(f'Fecha de fin: {date_week[1]}')
             
 
-            fi_time= time_week[time_week['createdAt'].dt.date ==day_select]
+            fi_time= time_week[time_week['createdAt'].dt.date ==pd.to_datetime(day_select)]
+            st.write(f'{fi_time.shape}')
             if fi_time.shape[0]!=0:
 
                 val_vaca= dataframe_interview_vaca(fi_time)
