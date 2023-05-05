@@ -51,7 +51,6 @@ if on_perimetro.shape[0]!=0:
         st.plotly_chart(fig,use_container_width=True)
         week= st.slider('Selecione semana',int(data_week['createdAt'].min()) ,int(data_week['createdAt'].max()) )
 
-        st.write('En esa semana específica, puede visualizar los datos de un momento específico del día y sus datos de ese collar en específico:')
 
 
 
@@ -65,6 +64,7 @@ if on_perimetro.shape[0]!=0:
             day=sep_time.createdAt.dt.date
 
 
+            st.write('En esa semana específica, puede visualizar los datos de un momento específico del día y sus datos de ese collar en específico:')
             fig=px.bar(sep_time,x=sep_time.createdAt.dt.day_name(), y=sep_time.count_register)
             st.plotly_chart(fig,use_container_width=True) 
 
@@ -93,8 +93,8 @@ if on_perimetro.shape[0]!=0:
             val_vaca= agregar_iths(val_vaca,setle[setle.name==select_sl]._id.values[0])
 
             st.dataframe(val_vaca,use_container_width=True)
-    else:
-        st.warning('No hay datos para esta semana cambie la semana seleccionada')
+        else:
+            st.warning('No hay datos para esta semana cambie la semana seleccionada')
 
 
 
@@ -179,7 +179,7 @@ if on_perimetro.shape[0]!=0:
 
         st.subheader('Veces que se va a las aguadas')
         #st.write(f'{setle[setle.name==select_sl]._id.values[0]} - {setle[setle.name==select_sl]._id.values} ')
-        agua= agua_click(on_perimetro, select, day_select, setle[setle.name==select_sl]._id.values[0])
+        agua= agua_click(df_gps, select, day_select, setle[setle.name==select_sl]._id.values[0])
         agua= agua.drop(columns=['geometry'])
         veces_dia= agua.groupby([agua['createdAt'].dt.hour]).agg({'UUID': 'count'})
         veces_dia= veces_dia.reset_index().rename(columns= {'createdAt':'Hora', 'UUID':'Conteo'})
