@@ -100,21 +100,23 @@ if on_perimetro.shape[0]!=0:
 
 
 
-
-    if st.button('Recorrido en Mapa') or fi_time.shape[0]==1:
-            fig = go.Figure()
-            grafic_map(fi_time,[select], fig)
-            
-            fig.update_layout(
-                mapbox=dict(
-                    style='satellite', # Estilo de mapa satelital
-                    accesstoken=mapbox_access_token,
-                    zoom=12, # Nivel de zoom inicial del mapa
-                    center=dict(lat=fi_time.iloc[-1]['dataRowData_lat'] , lon= fi_time.iloc[-1]['dataRowData_lng']),
-                ),
-                showlegend=False
-            )
-            st.plotly_chart(fig)
+    try: 
+        if st.button('Recorrido en Mapa') or fi_time.shape[0]==1:
+                fig = go.Figure()
+                grafic_map(fi_time,[select], fig)
+                
+                fig.update_layout(
+                    mapbox=dict(
+                        style='satellite', # Estilo de mapa satelital
+                        accesstoken=mapbox_access_token,
+                        zoom=12, # Nivel de zoom inicial del mapa
+                        center=dict(lat=fi_time.iloc[-1]['dataRowData_lat'] , lon= fi_time.iloc[-1]['dataRowData_lng']),
+                    ),
+                    showlegend=False
+                )
+                st.plotly_chart(fig)
+    except NameError or IndexError:
+        pass
 
     if fi_time.shape[0]!=0:
         try:
@@ -178,7 +180,7 @@ if on_perimetro.shape[0]!=0:
     st.dataframe(tabla_diag, use_container_width =True)
 
     st.subheader('Veces que se va a las aguadas')
-
+    st.write(f'{setle[setle.name==select_sl]._id.values[0]} - {setle[setle.name==select_sl]._id.values} ')
     agua= agua_click(on_perimetro, select, day_select, setle[setle.name==select_sl]._id.values[0])
     agua= agua.drop(columns=['geometry'])
     veces_dia= agua.groupby([agua['createdAt'].dt.hour]).agg({'UUID': 'count'})

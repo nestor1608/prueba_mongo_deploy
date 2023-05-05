@@ -31,7 +31,7 @@ def agua_click(data,vaca,fecha,setle):
     dtf= gps_aguada(aguadas,data)
     prueba= {}
     for i,d in dtf.iterrows():
-        prueba[i]=filter_area_peri(data,d['dataRowData_lat'] , d['dataRowData_lng'],4.6)
+        prueba[i]=filter_area_peri(data,d['dataRowData_lat'] , d['dataRowData_lng'],4.0)
     prueb=pd.concat(prueba.values())
     day_p= select_data_by_date(prueb,fecha)
     p= data_devices(day_p,vaca)
