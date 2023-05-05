@@ -108,81 +108,81 @@ if on_perimetro.shape[0]!=0:
                             showlegend=False
                         )
                         st.plotly_chart(fig)
-
-                if fi_time.shape[0]!=0:
-                    try:
-                        if fi_time.shape[0]>1:
-                            mean_dist, dist_sum =val_vaca[['distancia']].mean().round(3),val_vaca['distancia'].sum().round(3)
-                            sum_tim, time_mean= val_vaca['tiempo'].sum().round(3),val_vaca['tiempo'].mean().round(3)
-                            velo_mean=val_vaca['tiempo'].mean().round(3)
-                            st.markdown(f'Movimiento promedio durante **{day_select}** fue  **{mean_dist.values[0]}**km')
-                            st.markdown(f'Distancia recorrida: **{dist_sum}** km')
-                            st.markdown(f'Tiempo: {sum_tim} ')
-                            st.markdown('***')
-                            st.subheader('Variaciones de movimiento y distancia')
-                            fig=px.area(val_vaca, x=val_vaca['point_ini'], y= val_vaca['distancia'],)
-                            st.plotly_chart(fig,use_container_width=True)
-                            st.markdown('***')
-                            st.subheader('Alteracion de velocidad')
-                            fig=px.area(val_vaca, x=val_vaca['point_ini'],y=val_vaca['velocidad'])
-                            st.plotly_chart(fig,use_container_width=True) 
-                            st.markdown(f'* Velocidad promedio **{velo_mean}** k/h')
-                            st.markdown('***')
-                            
-                            st.subheader('Variaciones de Tiempo ')
-                            fig=px.area(val_vaca, x=val_vaca['point_ini'], y= val_vaca['tiempo'])
-                            st.plotly_chart(fig,use_container_width=True) 
-                            st.markdown(f'* Tiempo promedio:  **{time_mean}** hrs')
-                        
-
-                            tabla_datos,tabla_resumen,tabla_diag= conducta_vaca_periodo(time_week, df_gps,select, select_sl ,date_week[0],date_week[1])# ACAAA ESTA CREADO EL DATAFRAME CON LOS 
-                            
-
-
-                            st.markdown('***')
-
-                            st.write('Teniendo en cuenta la distancia, la aceleración y el tiempo que varía de un punto a otro, se creo un modelo de K-means el que nos arroja un agrupamiento de las actividades de la vaca que se pueden visualizar así:')    
-
-
-                            st.subheader(' Tiempo acumulado por actividad ')
-
-                            st.dataframe(tabla_resumen,use_container_width=True)
-
-
-                            tabla_resumen[['rumiando','pastando','durmiendo','bebiendo']]= tabla_resumen[['rumiando','pastando','durmiendo','bebiendo']].applymap(lambda x: transform(x))
-                            fig=px.line(tabla_resumen[['rumiando','pastando', 'durmiendo', 'bebiendo']].transpose())
-                            st.plotly_chart(fig,use_container_width=True)
-
-
-                            st.subheader(' Tabla de diagnóstico ')
-
-                            st.write('Dados los parámetros óptimos, en la siguiente tabla se puede concluir que el la calidad de la distribución del tiempo que dedicó a cada actividad')
-                            st.dataframe(tabla_diag, use_container_width =True)
-
-
-
-                            st.subheader('Veces que se va a las aguadas')
-                            #st.write(f'{setle[setle.name==select_sl]._id.values[0]} - {setle[setle.name==select_sl]._id.values} ')
-                            agua= agua_click(df_gps, select, day_select, setle[setle.name==select_sl]._id.values[0])
-                            agua= agua.drop(columns=['geometry'])
-                            veces_dia= agua.groupby([agua['createdAt'].dt.hour]).agg({'UUID': 'count'})
-                            veces_dia= veces_dia.reset_index().rename(columns= {'createdAt':'Hora', 'UUID':'Conteo'})
-                            veces_dia= veces_dia.set_index('Hora')
-                            st.dataframe(veces_dia, use_container_width=True)
-                        else:
-                            st.table(fi_time[['dataRowData_lng','dataRowData_lat' ]])
-                    except AttributeError:
-                            st.warning('No hay registro con estos parametros')
-                else:
-                    st.warning('Dia sin registros') 
             except NameError or IndexError:
                 pass
+
+                if fi_time.shape[0]!=0:
+                    
+                    if fi_time.shape[0]!= 1:
+                        mean_dist, dist_sum =val_vaca[['distancia']].mean().round(3),val_vaca['distancia'].sum().round(3)
+                        sum_tim, time_mean= val_vaca['tiempo'].sum().round(3),val_vaca['tiempo'].mean().round(3)
+                        velo_mean=val_vaca['tiempo'].mean().round(3)
+                        st.markdown(f'Movimiento promedio durante **{day_select}** fue  **{mean_dist.values[0]}**km')
+                        st.markdown(f'Distancia recorrida: **{dist_sum}** km')
+                        st.markdown(f'Tiempo: {sum_tim} ')
+                        st.markdown('***')
+                        st.subheader('Variaciones de movimiento y distancia')
+                        fig=px.area(val_vaca, x=val_vaca['point_ini'], y= val_vaca['distancia'],)
+                        st.plotly_chart(fig,use_container_width=True)
+                        st.subheader('Veces que se va a las aguadas en el dia marcado')
+                        
+                        # VECES QUE SE VA A LA AGUADA AEN EL DIA
+                        agua= agua_click(df_gps, select, day_select, setle[setle.name==select_sl]._id.values[0])
+                        agua= agua.drop(columns=['geometry'])
+                        veces_dia= agua.groupby([agua['createdAt'].dt.hour]).agg({'UUID': 'count'})
+                        veces_dia= veces_dia.reset_index().rename(columns= {'createdAt':'Hora', 'UUID':'Conteo'})
+                        veces_dia= veces_dia.set_index('Hora')
+                        st.dataframe(veces_dia, use_container_width=True)
+                        
+                        st.markdown('***')
+                        st.subheader('Alteracion de velocidad')
+                        fig=px.area(val_vaca, x=val_vaca['point_ini'],y=val_vaca['velocidad'])
+                        st.plotly_chart(fig,use_container_width=True) 
+                        st.markdown(f'* Velocidad promedio **{velo_mean}** k/h')
+                        st.markdown('***')
+                        
+                        st.subheader('Variaciones de Tiempo ')
+                        fig=px.area(val_vaca, x=val_vaca['point_ini'], y= val_vaca['tiempo'])
+                        st.plotly_chart(fig,use_container_width=True) 
+                        st.markdown(f'* Tiempo promedio:  **{time_mean}** hrs')
+                    
+
+                        tabla_datos,tabla_resumen,tabla_diag= conducta_vaca_periodo(time_week, df_gps,select, select_sl ,date_week[0],date_week[1])# ACAAA ESTA CREADO EL DATAFRAME CON LOS 
+                        
+
+
+                        st.markdown('***')
+
+                        st.write('Teniendo en cuenta la distancia, la aceleración y el tiempo que varía de un punto a otro, se creo un modelo de K-means el que nos arroja un agrupamiento de las actividades de la vaca que se pueden visualizar así:')    
+
+
+                        st.subheader(' Tiempo acumulado por actividad ')
+
+                        st.dataframe(tabla_resumen,use_container_width=True)
+
+
+                        tabla_resumen[['rumiando','pastando','durmiendo','bebiendo']]= tabla_resumen[['rumiando','pastando','durmiendo','bebiendo']].applymap(lambda x: transform(x))
+                        fig=px.line(tabla_resumen[['rumiando','pastando', 'durmiendo', 'bebiendo']].transpose())
+                        st.plotly_chart(fig,use_container_width=True)
+
+
+                        st.subheader(' Tabla de diagnóstico ')
+
+                        st.write('Dados los parámetros óptimos, en la siguiente tabla se puede concluir que el la calidad de la distribución del tiempo que dedicó a cada actividad')
+                        st.dataframe(tabla_diag, use_container_width =True)
+
+
+                    else:
+                        st.table(fi_time[['dataRowData_lng','dataRowData_lat' ]])
+                    
+                else:
+                    st.warning('Dia sin registros') 
         else:
             st.warning('No hay datos para esta semana cambie la semana seleccionada')
 else:
     st.warning('Lugar sin dato')
 
-    
+
 
 
 
