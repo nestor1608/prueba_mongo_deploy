@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from funciones_app import dataframe_interview_vaca,data_devices,week_data_filter, filter_area_perimetro,transform
-from conect_datarows import obtener_fecha_inicio_fin, df_gps, setle_list
+from conect_datarows import obtener_fecha_inicio_fin, df_gps, setle_list,agregar_iths
 from prueba import conducta_vaca_periodo,agua_click
 from suport_st import grafic_map,mapbox_access_token
 import plotly.express as px
@@ -97,6 +97,7 @@ if on_perimetro.shape[0]!=0:
 
 
     val_vaca= dataframe_interview_vaca(fi_time)
+    val_vaca= agregar_iths(val_vaca,setle[setle.name==select_sl]._id.values[0])
 
     st.dataframe(val_vaca,use_container_width=True)
 
