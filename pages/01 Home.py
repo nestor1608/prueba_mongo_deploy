@@ -4,7 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from funciones_app import dataframe_interview_vaca,data_devices,week_data_filter, filter_area_perimetro,transform
 from conect_datarows import obtener_fecha_inicio_fin, df_gps, setle_list
-from prueba import conducta_vaca_periodo,agua_clicks
+from prueba import conducta_vaca_periodo,agua_click
 from suport_st import grafic_map,mapbox_access_token
 import plotly.express as px
 
@@ -56,29 +56,32 @@ if on_perimetro.shape[0]!=0:
 
 
     time_week= week_data_filter(dt_vaca,week)
+    print(time_week.shape)
+    if time_week.shape[0]!=0:
+        sep_time=time_week['createdAt'].groupby(dt_vaca.createdAt.dt.date).aggregate(['count']).rename(columns={'count':'count_register'}).reset_index()
 
-    sep_time=time_week['createdAt'].groupby(dt_vaca.createdAt.dt.date).aggregate(['count']).rename(columns={'count':'count_register'}).reset_index()
+        sep_time.createdAt= pd.to_datetime(sep_time.createdAt)
 
-    sep_time.createdAt= pd.to_datetime(sep_time.createdAt)
-
-    day=sep_time.createdAt.dt.date
-
-
-    fig=px.bar(sep_time,x=sep_time.createdAt.dt.day_name(), y=sep_time.count_register)
-    st.plotly_chart(fig,use_container_width=True) 
+        day=sep_time.createdAt.dt.date
 
 
+        fig=px.bar(sep_time,x=sep_time.createdAt.dt.day_name(), y=sep_time.count_register)
+        st.plotly_chart(fig,use_container_width=True) 
 
 
-    st.markdown('***')
-    st.markdown('## Cantidad de registro por dia')
-
-    day_select=st.select_slider('Seleccionar dia',options=day)
 
 
-    sep_time=time_week[time_week['createdAt'].dt.date ==day_select].groupby(time_week.createdAt.dt.date).agg({'UUID':'count'}).rename(columns={'UUID':'count_register'}).reset_index().rename(columns={'createdAt':'day'})
-    sep_time.day= pd.to_datetime(sep_time.day)
-    day=sep_time.day.dt.date.values
+        st.markdown('***')
+        st.markdown('## Cantidad de registro por dia')
+
+        day_select=st.select_slider('Seleccionar dia',options=day)
+
+
+        sep_time=time_week[time_week['createdAt'].dt.date ==day_select].groupby(time_week.createdAt.dt.date).agg({'UUID':'count'}).rename(columns={'UUID':'count_register'}).reset_index().rename(columns={'createdAt':'day'})
+        sep_time.day= pd.to_datetime(sep_time.day)
+        day=sep_time.day.dt.date.values
+    else:
+        st.warning('No hay datos para esta semana cambie la semana seleccionada')
 
 
 
@@ -176,7 +179,7 @@ if on_perimetro.shape[0]!=0:
 
     st.subheader('Veces que se va a las aguadas')
 
-    agua= agua_clicks(on_perimetro, select, day_select, setle[setle.name==select_sl]._id.values[0])
+    agua= agua_click(on_perimetro, select, day_select, setle[setle.name==select_sl]._id.values[0])
     agua= agua.drop(columns=['geometry'])
     veces_dia= agua.groupby([agua['createdAt'].dt.hour]).agg({'UUID': 'count'})
     veces_dia= veces_dia.reset_index().rename(columns= {'createdAt':'Hora', 'UUID':'Conteo'})
