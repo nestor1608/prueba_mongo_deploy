@@ -46,53 +46,53 @@ if on_perimetro.shape[0]!=0:
     st.write('Ahora puede observar una semana en específica con el menú siguiente:')
 
     if int(data_week['createdAt'].min())!= int(data_week['createdAt'].max()):
-            fig= px.bar( data_week,x=data_week['createdAt'],y=data_week['count_register'])
-            st.markdown('## Cantidad de registro por Semana')
-            st.plotly_chart(fig,use_container_width=True)
-            week= st.slider('Selecione semana',int(data_week['createdAt'].min()) ,int(data_week['createdAt'].max()) )
+        fig= px.bar( data_week,x=data_week['createdAt'],y=data_week['count_register'])
+        st.markdown('## Cantidad de registro por Semana')
+        st.plotly_chart(fig,use_container_width=True)
+        week= st.slider('Selecione semana',int(data_week['createdAt'].min()) ,int(data_week['createdAt'].max()) )
 
-    st.write('En esa semana específica, puede visualizar los datos de un momento específico del día y sus datos de ese collar en específico:')
-
-
-
-    time_week= week_data_filter(dt_vaca,week)
-    print(time_week.shape)
-    if time_week.shape[0]!=0:
-        sep_time=time_week['createdAt'].groupby(dt_vaca.createdAt.dt.date).aggregate(['count']).rename(columns={'count':'count_register'}).reset_index()
-
-        sep_time.createdAt= pd.to_datetime(sep_time.createdAt)
-
-        day=sep_time.createdAt.dt.date
-
-
-        fig=px.bar(sep_time,x=sep_time.createdAt.dt.day_name(), y=sep_time.count_register)
-        st.plotly_chart(fig,use_container_width=True) 
+        st.write('En esa semana específica, puede visualizar los datos de un momento específico del día y sus datos de ese collar en específico:')
 
 
 
+        time_week= week_data_filter(dt_vaca,week)
+        print(time_week.shape)
+        if time_week.shape[0]!=0:
+            sep_time=time_week['createdAt'].groupby(dt_vaca.createdAt.dt.date).aggregate(['count']).rename(columns={'count':'count_register'}).reset_index()
 
-        st.markdown('***')
-        st.markdown('## Cantidad de registro por dia')
+            sep_time.createdAt= pd.to_datetime(sep_time.createdAt)
 
-        day_select=st.select_slider('Seleccionar dia',options=day)
-
-
-        sep_time=time_week[time_week['createdAt'].dt.date ==day_select].groupby(time_week.createdAt.dt.date).agg({'UUID':'count'}).rename(columns={'UUID':'count_register'}).reset_index().rename(columns={'createdAt':'day'})
-        sep_time.day= pd.to_datetime(sep_time.day)
-        day=sep_time.day.dt.date.values
-        
-        date_week= obtener_fecha_inicio_fin(time_week.iloc[-1][['createdAt']].values[0])
-        st.subheader(f'Fecha de Inicio: {date_week[0]}')
-        st.subheader(f'Fecha de fin: {date_week[1]}')
-        
-
-        fi_time= time_week[time_week['createdAt'].dt.date ==day_select]
+            day=sep_time.createdAt.dt.date
 
 
-        val_vaca= dataframe_interview_vaca(fi_time)
-        val_vaca= agregar_iths(val_vaca,setle[setle.name==select_sl]._id.values[0])
+            fig=px.bar(sep_time,x=sep_time.createdAt.dt.day_name(), y=sep_time.count_register)
+            st.plotly_chart(fig,use_container_width=True) 
 
-        st.dataframe(val_vaca,use_container_width=True)
+
+
+
+            st.markdown('***')
+            st.markdown('## Cantidad de registro por dia')
+
+            day_select=st.select_slider('Seleccionar dia',options=day)
+
+
+            sep_time=time_week[time_week['createdAt'].dt.date ==day_select].groupby(time_week.createdAt.dt.date).agg({'UUID':'count'}).rename(columns={'UUID':'count_register'}).reset_index().rename(columns={'createdAt':'day'})
+            sep_time.day= pd.to_datetime(sep_time.day)
+            day=sep_time.day.dt.date.values
+            
+            date_week= obtener_fecha_inicio_fin(time_week.iloc[-1][['createdAt']].values[0])
+            st.subheader(f'Fecha de Inicio: {date_week[0]}')
+            st.subheader(f'Fecha de fin: {date_week[1]}')
+            
+
+            fi_time= time_week[time_week['createdAt'].dt.date ==day_select]
+
+
+            val_vaca= dataframe_interview_vaca(fi_time)
+            val_vaca= agregar_iths(val_vaca,setle[setle.name==select_sl]._id.values[0])
+
+            st.dataframe(val_vaca,use_container_width=True)
     else:
         st.warning('No hay datos para esta semana cambie la semana seleccionada')
 
