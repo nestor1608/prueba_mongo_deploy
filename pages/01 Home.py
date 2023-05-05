@@ -35,7 +35,7 @@ if on_perimetro.shape[0]!=0:
     dt_vaca=  data_devices(on_perimetro,select)
     dt_vaca.createdAt= pd.to_datetime(dt_vaca.createdAt)
     st.write(f'{dt_vaca.createdAt.dt.year.unique()}')
-    data_week= dt_vaca['createdAt'].groupby(dt_vaca.createdAt.dt.week).aggregate(['count']).rename(columns={'count':'count_register'})
+    data_week= dt_vaca['createdAt'].groupby(dt_vaca.createdAt.dt.strftime('%U')).aggregate(['count']).rename(columns={'count':'count_register'})
     data_week=data_week.reset_index()
     data_week.createdAt = data_week.createdAt.apply(lambda x : int(x))
 
