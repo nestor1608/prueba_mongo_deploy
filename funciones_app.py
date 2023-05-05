@@ -54,12 +54,12 @@ def obtener_fecha_inicio_fin(semana):
     """
     
     if isinstance(semana, str):
-        semana = datetime.datetime.strptime(semana, '%Y-%m-%d')
+        semana = datetime.strptime(semana, '%Y-%m-%d')
         
     dia_semana = semana.weekday()
     
-    fecha_inicio = semana - datetime.timedelta(days=dia_semana)
-    fecha_fin = fecha_inicio + datetime.timedelta(days=6)
+    fecha_inicio = semana - timedelta(days=dia_semana)
+    fecha_fin = fecha_inicio + timedelta(days=6)
     
     fecha_inicio = fecha_inicio.strftime('%Y-%m-%d')
     fecha_fin = fecha_fin.strftime('%Y-%m-%d')
