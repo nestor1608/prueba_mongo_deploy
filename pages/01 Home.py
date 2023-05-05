@@ -117,7 +117,8 @@ if on_perimetro.shape[0]!=0:
 
             if fi_time.shape[0] > 1:
                 mean_dist, dist_sum =val_vaca[['distancia']].mean().round(3),val_vaca['distancia'].sum().round(3)
-                sum_tim, time_mean= val_vaca['tiempo'].sum().round(3),val_vaca['tiempo'].mean().round(3)
+                st.write(f'{val_vaca['tiempo'].sum()} -- {val_vaca['tiempo'].mean()}')
+                sum_tim, time_mean= val_vaca['tiempo'].sum().round(3), val_vaca['tiempo'].mean().round(3)
                 velo_mean=val_vaca['tiempo'].mean().round(3)
                 st.markdown(f'Movimiento promedio durante **{day_select}** fue  **{mean_dist.values[0]}**km')
                 st.markdown(f'Distancia recorrida: **{dist_sum}** km')
