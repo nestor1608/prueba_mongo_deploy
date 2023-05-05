@@ -53,9 +53,9 @@ if on_perimetro.shape[0]!=0:
 
 
 
-
+        st.write(week)
         time_week= week_data_filter(dt_vaca,week)
-        print(time_week.shape)
+        st.write(f'{time_week.shape}')
         if time_week.shape[0]!=0:
             sep_time=time_week['createdAt'].groupby(dt_vaca.createdAt.dt.date).aggregate(['count']).rename(columns={'count':'count_register'}).reset_index()
 
