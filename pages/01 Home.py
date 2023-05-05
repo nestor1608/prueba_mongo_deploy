@@ -8,7 +8,7 @@ from conect_datarows import obtener_fecha_inicio_fin, df_gps, setle_list
 from prueba import conducta_vaca_periodo
 from suport_st import grafic_map,mapbox_access_token
 import plotly.express as px
-from streamlit_pdf_report import add_download_button
+
 import datetime
 
 st.image('imagenes/Header_bastó.jpeg')
@@ -158,7 +158,7 @@ if fi_time.shape[0]!=0:
     st.write('Dados los parámetros óptimos, en la siguiente tabla se puede concluir que el la calidad de la distribución del tiempo que dedicó a cada actividad')
 
     st.dataframe(tabla_diag, use_container_width =True)
-    add_download_button('Descargar Reporte (PDF)',file_name= f'reporte-{select}.pdf')
+    
 else:
     st.warning('Lugar sin dato')
 
