@@ -74,25 +74,28 @@ if on_perimetro.shape[0]!=0:
 
             st.markdown('***')
             st.markdown('## Cantidad de registro por dia')
+            if len(day) != 1:
+                day_select=st.select_slider('Seleccionar dia',options=day)
+                sep_time=time_week.groupby(time_week.createdAt.dt.date).agg({'UUID':'count'}).rename(columns={'UUID':'count_register'}).reset_index().rename(columns={'createdAt':'day'})
+                sep_time.day= pd.to_datetime(sep_time.day)
+                day=sep_time.day.dt.date.values
+                
+                date_week= obtener_fecha_inicio_fin(time_week.iloc[-1][['createdAt']].values[0])
+                st.subheader(f'Fecha de Inicio: {date_week[0]}')
+                st.subheader(f'Fecha de fin: {date_week[1]}')
+                
 
-            day_select=st.select_slider('Seleccionar dia',options=day)
+                fi_time= time_week[time_week['createdAt'].dt.date == pd.to_datetime(day_select).date()]
+                st.write(f'{fi_time.shape}')
+            else:
+                fi_time= time_week[time_week['createdAt'].dt.date == pd.to_datetime(day[0]).date()]
+                st.write(f'{fi_time.shape}')
 
 
-            sep_time=time_week.groupby(time_week.createdAt.dt.date).agg({'UUID':'count'}).rename(columns={'UUID':'count_register'}).reset_index().rename(columns={'createdAt':'day'})
-            sep_time.day= pd.to_datetime(sep_time.day)
-            day=sep_time.day.dt.date.values
-            
-            date_week= obtener_fecha_inicio_fin(time_week.iloc[-1][['createdAt']].values[0])
-            st.subheader(f'Fecha de Inicio: {date_week[0]}')
-            st.subheader(f'Fecha de fin: {date_week[1]}')
-            
-
-            fi_time= time_week[time_week['createdAt'].dt.date == pd.to_datetime(day_select).date()]
-            st.write(f'{fi_time.shape}')
             if fi_time.shape[0]!=0:
 
                 val_vaca= dataframe_interview_vaca(fi_time)
-                #val_vaca= agregar_iths(val_vaca,setle[setle.name==select_sl]._id.values[0])
+                val_vaca= agregar_iths(val_vaca,setle[setle.name==select_sl]._id.values[0])
                 st.dataframe(val_vaca,use_container_width=True)
             else:
                 st.warning('Dia sin registros') 
@@ -121,8 +124,8 @@ if on_perimetro.shape[0]!=0:
                 sum_tim, time_mean= val_vaca[['tiempo']].sum().round(3), val_vaca[['tiempo']].mean().round(3)
                 velo_mean=val_vaca[['tiempo']].mean().round(3)
                 st.markdown(f'Movimiento promedio durante **{day_select}** fue  **{mean_dist.values[0]}**km')
-                st.markdown(f'Distancia recorrida: **{dist_sum}** km')
-                st.markdown(f'Tiempo: {sum_tim} ')
+                st.markdown(f'Distancia recorrida: **{dist_sum.values}** km')
+                st.markdown(f'Tiempo: {sum_tim.values} ')
                 st.markdown('***')
                 st.subheader('Variaciones de movimiento y distancia')
                 fig=px.area(val_vaca, x=val_vaca['point_ini'], y= val_vaca['distancia'],)

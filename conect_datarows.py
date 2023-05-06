@@ -201,4 +201,5 @@ def agregar_iths(data,asentamiento_id):
         aux[fecha]= pd.merge(dataq,prueba[['createdAt', 'ITH']],left_on=dataq.point_ini.dt.hour, right_on=prueba['createdAt'].dt.hour)
     prueb= pd.concat(aux.values())  
     prueb= prueb.drop(columns=['key_0','createdAt'])  
+    if prueb.shape[0] == 0: return data 
     return prueb
