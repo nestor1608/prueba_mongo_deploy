@@ -179,7 +179,7 @@ def separador_por_dia(df):
     
     diarios= {}
     for fecha,grupo in df.groupby(df['point_ini'].dt.date):
-        diarios[fecha]=acumular_diferencia_tiempo(grupo,1,0)
+        diarios[fecha]=acumular_diferencia_tiempo(grupo)
     diarios=pd.concat(diarios.values(),keys=diarios.keys(),axis=0)
     diarios=diarios.reset_index(level=1).drop(columns=['level_1'])
     return diarios 
