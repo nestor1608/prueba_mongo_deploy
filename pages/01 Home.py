@@ -81,13 +81,16 @@ if on_perimetro.shape[0]!=0:
                 day=sep_time.day.dt.date.values
                 
                 date_week= obtener_fecha_inicio_fin(time_week.iloc[-1][['createdAt']].values[0])
-                st.subheader(f'Fecha de Inicio: {date_week[0]}')
-                st.subheader(f'Fecha de fin: {date_week[1]}')
+                st.subheader(f'Fecha de Inicio: {inici_semana}')
+                st.subheader(f'Fecha de fin: {fin_semena}')
                 
 
                 fi_time= time_week[time_week['createdAt'].dt.date == pd.to_datetime(day_select).date()]
                 st.write(f'{fi_time.shape}')
             else:
+                date_week= obtener_fecha_inicio_fin(time_week.iloc[-1][['createdAt']].values[0])
+                st.subheader(f'Fecha de Inicio: {inici_semana}')
+                st.subheader(f'Fecha de fin: {fin_semena}')
                 day_select= day[0]
                 fi_time= time_week[time_week['createdAt'].dt.date == pd.to_datetime(day_select).date()]
                 st.write(f'{fi_time.shape}')
@@ -125,8 +128,8 @@ if on_perimetro.shape[0]!=0:
                 sum_tim, time_mean= val_vaca[['tiempo']].sum().round(3), val_vaca[['tiempo']].mean().round(3)
                 velo_mean=val_vaca[['tiempo']].mean().round(3)
                 st.markdown(f'Movimiento promedio durante **{day_select}** fue  **{mean_dist.values[0]}**km')
-                st.markdown(f'Distancia recorrida: **{dist_sum.values}** km')
-                st.markdown(f'Tiempo: {sum_tim.values} ')
+                st.markdown(f'Distancia recorrida: **{dist_sum.values[0]}** km')
+                st.markdown(f'Tiempo: {sum_tim.values[0]} ')
                 st.markdown('***')
                 st.subheader('Variaciones de movimiento y distancia')
                 fig=px.area(val_vaca, x=val_vaca['point_ini'], y= val_vaca['distancia'],)
@@ -145,16 +148,16 @@ if on_perimetro.shape[0]!=0:
                 st.subheader('Alteracion de velocidad')
                 fig=px.area(val_vaca, x=val_vaca['point_ini'],y=val_vaca['velocidad'])
                 st.plotly_chart(fig,use_container_width=True) 
-                st.markdown(f'* Velocidad promedio **{velo_mean}** k/h')
+                st.markdown(f'* Velocidad promedio **{velo_mean.values[0]}** k/h')
                 st.markdown('***')
                 
                 st.subheader('Variaciones de Tiempo ')
                 fig=px.area(val_vaca, x=val_vaca['point_ini'], y= val_vaca['tiempo'])
                 st.plotly_chart(fig,use_container_width=True) 
-                st.markdown(f'* Tiempo promedio:  **{time_mean}** hrs')
+                st.markdown(f'* Tiempo promedio:  **{time_mean.values[0]}** hrs')
             
 
-                tabla_datos,tabla_resumen,tabla_diag= conducta_vaca_periodo(time_week, df_gps,select, select_sl ,date_week[0],date_week[1])# ACAAA ESTA CREADO EL DATAFRAME CON LOS 
+                tabla_datos,tabla_resumen,tabla_diag= conducta_vaca_periodo(time_week, df_gps,select, select_sl ,inici_semana, fin_semena)# ACAAA ESTA CREADO EL DATAFRAME CON LOS 
                 
 
 
