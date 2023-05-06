@@ -115,38 +115,63 @@ def cosa(numero_horas):
     return f"{horas} h, {minutos} min, {segundos} seg"
 
 
-def acumular_diferencia_tiempo(df, cluster_rum, cluster_rum_2):
+def acumular_diferencia_tiempo(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Calcula el tiempo total que un animal pasa durmiendo, pastando, rumiando o bebiendo según las condiciones
+    dadas en el DataFrame de entrada. Retorna un nuevo DataFrame con los valores totales de cada actividad.
+
+    Parámetros:
+    -----------
+    - df (pd.DataFrame): DataFrame con las columnas "point_ini", "point_next", "dormida", "cluster" y "agua".
+
+    Retorna:
+    -----------
+    - total_df (pd.DataFrame): DataFrame con las columnas "rumiando", "pastando", "durmiendo", "bebiendo" y "cant_registro".
+
+    """
+
     # Convertir las columnas "point_ini" y "point_next" en valores de tipo datetime
     df["point_ini"] = pd.to_datetime(df["point_ini"])
     df["point_next"] = pd.to_datetime(df["point_next"])
 
-    # Crear las columnas "rumeando", "pastando" y "durmiendo" y establecer el valor inicial a 0
+    # Crear las columnas "rumeando", "pastando", "durmiendo", "bebiendo" y establecer el valor inicial a 0
     df["rumeando"] = 0
     df["pastando"] = 0
     df["durmiendo"] = 0
     df["bebiendo"] = 0
-    cantidadregistro=0
+    cantidadregistro = 0
 
     # Recorrer el DataFrame y sumar los valores de la diferencia entre "point_ini" y "point_next" según las condiciones dadas
     for i, row in df.iterrows():
-        if row["dormida"] == "SI" and row['agua'] == 0:
-            df.at[i, "durmiendo"] += ((row["point_next"] - row["point_ini"]).total_seconds())/3600
-        elif row["cluster"] == 0 and row["dormida"] == "NO" and row['agua'] == 0:
-            df.at[i, "rumeando"] += ((row["point_next"] - row["point_ini"]).total_seconds())/3600
-        elif row["cluster"] == 1 and row['agua'] == 0:
-            df.at[i, "pastando"] += ((row["point_next"] - row["point_ini"]).total_seconds())/3600
-        elif row['agua'] == 1 :
-            df.at[i, "bebiendo"] += ((row["point_next"] - row["point_ini"]).total_seconds())/3600
-        cantidadregistro +=1
+        if row["dormida"] == "SI" and row["agua"] == 0:
+            df.at[i, "durmiendo"] += (
+                (row["point_next"] - row["point_ini"]).total_seconds()
+            ) / 3600
+        elif row["cluster"] == 1 and row["dormida"] == "NO" and row["agua"] == 0:
+            df.at[i, "rumeando"] += (
+                (row["point_next"] - row["point_ini"]).total_seconds()
+            ) / 3600
+        elif row["cluster"] == 0 and row["agua"] == 0:
+            df.at[i, "pastando"] += (
+                (row["point_next"] - row["point_ini"]).total_seconds()
+            ) / 3600
+        elif row["agua"] == 1:
+            df.at[i, "bebiendo"] += (
+                (row["point_next"] - row["point_ini"]).total_seconds()
+            ) / 3600
+        cantidadregistro += 1
+
     # Crear un nuevo DataFrame con los valores totales de cada actividad
-    total_df = pd.DataFrame({
-        "rumiando": [cosa(df["rumeando"].sum())],
-        "pastando": [cosa(df["pastando"].sum())],
-        "durmiendo": [cosa(df["durmiendo"].sum())],
-        "bebiendo": [cosa(df["bebiendo"].sum())],
-        "cant_registro": cantidadregistro
-    })
-    
+    total_df = pd.DataFrame(
+        {
+            "rumiando": [cosa(df["rumeando"].sum())],
+            "pastando": [cosa(df["pastando"].sum())],
+            "durmiendo": [cosa(df["durmiendo"].sum())],
+            "bebiendo": [cosa(df["bebiendo"].sum())],
+            "cant_registro": cantidadregistro,
+        }
+    )
+
     return total_df
 
 def separador_por_dia(df):
