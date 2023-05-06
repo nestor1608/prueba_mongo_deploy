@@ -194,7 +194,7 @@ if on_perimetro.shape[0]!=0:
             else:
                 st.warning('No hay datos para esta semana cambie la semana seleccionada')
         else:
-            st.table(dt_vaca)
+            st.write(f'{dt_vaca.shape}')
     else:
         st.warning('Collar sin Registros')
 else:
