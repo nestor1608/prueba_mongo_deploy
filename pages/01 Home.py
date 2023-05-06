@@ -122,8 +122,10 @@ if on_perimetro.shape[0]!=0:
                 st.markdown(f'Movimiento promedio durante **{day_select}** fue  **{mean_dist.values[0]}** Km')
                 st.markdown(f'Distancia recorrida: **{dist_sum.values[0]}** km')
                 st.markdown(f'Tiempo: {sum_tim.values[0]} ')
+                
+# PRESENTACION DE MAPA--------------------------------------------------
             try: 
-                st.success(st.markdown('_Podra visualizar el recorrido del bovino en un mapa satelital_'))
+                st.success('Podra visualizar el recorrido del bovino en un mapa satelital'))
                 if st.button('Recorrido en Mapa') or fi_time.shape[0]==1:
                         fig = go.Figure()
                         grafic_map(fi_time,[select], fig)
@@ -140,6 +142,7 @@ if on_perimetro.shape[0]!=0:
                         st.plotly_chart(fig)
             except NameError or IndexError:
                 pass
+#-----------------------------------------------------------------------------
                 st.markdown('***')
                  #  GRAFICO CORESPONDIENTE A VARIACIONO DE MOVIMIENTO-------------------++++++++ 
                 st.subheader('Variaciones de movimiento y distancia')
