@@ -38,7 +38,7 @@ if on_perimetro.shape[0]!=0:
     # filtrado de dataframe por collar especifico
     dt_vaca=  data_devices(on_perimetro,select)
     dt_vaca.createdAt= pd.to_datetime(dt_vaca.createdAt)
-    if dt_vaca.shape[0]==0:
+    if dt_vaca.shape[0]!=0:
         
         st.write(f'{dt_vaca.createdAt.dt.year.unique()}')
         data_week= dt_vaca['createdAt'].groupby(dt_vaca.createdAt.dt.strftime('%U')).aggregate(['count']).rename(columns={'count':'count_register'})
