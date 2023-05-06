@@ -31,8 +31,9 @@ def perimetro_aprox(hectarea):
     return perim
 
 
-def data_devices(data,uuid):
+def data_devices(data:pd.DataFrame,uuid):
     data=data[data.UUID == uuid]
+    data= data.sort_values('cretedAt',ascending=True)
     return data
 
 def gps_data(data):
