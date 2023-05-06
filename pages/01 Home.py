@@ -31,7 +31,7 @@ on_perimetro=filter_area_perimetro(df_gps,select_sl)# arroja dataframe---
 if on_perimetro.shape[0]!=0:
     uuid_devis = on_perimetro.UUID.unique()
 
-    select=st.selectbox("Ahora seleccione un collar",uuid_devis)
+select=st.selectbox("Ahora seleccione un collar",uuid_devis)
     dt_vaca=  data_devices(on_perimetro,select)
     dt_vaca.createdAt= pd.to_datetime(dt_vaca.createdAt)
     st.write(f'{dt_vaca.createdAt.dt.year.unique()}')
@@ -92,7 +92,7 @@ if on_perimetro.shape[0]!=0:
             if fi_time.shape[0]!=0:
 
                 val_vaca= dataframe_interview_vaca(fi_time)
-                val_vaca= agregar_iths(val_vaca,setle[setle.name==select_sl]._id.values[0])
+                #val_vaca= agregar_iths(val_vaca,setle[setle.name==select_sl]._id.values[0])
                 st.dataframe(val_vaca,use_container_width=True)
             else:
                 st.warning('Dia sin registros') 
