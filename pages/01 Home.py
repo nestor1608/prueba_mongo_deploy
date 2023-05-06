@@ -88,7 +88,8 @@ if on_perimetro.shape[0]!=0:
                 fi_time= time_week[time_week['createdAt'].dt.date == pd.to_datetime(day_select).date()]
                 st.write(f'{fi_time.shape}')
             else:
-                fi_time= time_week[time_week['createdAt'].dt.date == pd.to_datetime(day[0]).date()]
+                day_select= day[0]
+                fi_time= time_week[time_week['createdAt'].dt.date == pd.to_datetime(day_select).date()]
                 st.write(f'{fi_time.shape}')
 
 
