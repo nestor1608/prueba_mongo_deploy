@@ -29,21 +29,24 @@ select_sl= st.selectbox('Seleccione un asentamiento',setle.name.unique())
 # FILTRADO DE DATAFRAME POR ASENTAMIENTO-------------------------------------------------------
 
 on_perimetro=filter_area_perimetro(df_gps,select_sl)# arroja dataframe---
-# Control de error por dataframe vacio
+
+# Control de error por dataframe vacio----*******
 if on_perimetro.shape[0]!=0:
     uuid_devis = on_perimetro.UUID.unique()
 # Seleccion de collar --------------------
     select=st.selectbox("Ahora seleccione un collar",uuid_devis)
     
-    # filtrado de dataframe por collar especifico
+    # filtrado de dataframe por collar especifico-------+++++++++
     dt_vaca=  data_devices(on_perimetro,select)
     dt_vaca.createdAt= pd.to_datetime(dt_vaca.createdAt)
+    
+    # control de error por collar vacio----------*********
     if dt_vaca.shape[0]!=0:
-        
         st.write(f'{dt_vaca.createdAt.dt.year.unique()}')
         data_week= dt_vaca['createdAt'].groupby(dt_vaca.createdAt.dt.strftime('%U')).aggregate(['count']).rename(columns={'count':'count_register'})
         data_week=data_week.reset_index()
         data_week.createdAt = data_week.createdAt.apply(lambda x : int(x))
+        
 
         #st.write('Visualización de los registros obtenidos a lo largo del tiempo de ese collar en esa locaclización en específica:')
 
@@ -190,6 +193,8 @@ if on_perimetro.shape[0]!=0:
 
             else:
                 st.warning('No hay datos para esta semana cambie la semana seleccionada')
+        else:
+            st.table(dt_vaca)
     else:
         st.warning('Collar sin Registros')
 else:
