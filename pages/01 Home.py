@@ -81,7 +81,7 @@ if on_perimetro.shape[0]!=0:
 
 
             st.markdown('***')
-        #  control de error DIA SIN REGISTRO --------------------*********    
+    #  control de error DIA SIN REGISTRO --------------------*********    
             if len(day) != 1:
                 st.markdown('## Cantidad de registro por dia')
                 day_select=st.select_slider('Seleccionar dia',options=day)
@@ -95,7 +95,7 @@ if on_perimetro.shape[0]!=0:
                 
 
                 fi_time= time_week[time_week['createdAt'].dt.date == pd.to_datetime(day_select).date()]
-                st.write(f'{fi_time.shape}')
+                #st.write(f'{fi_time.shape}') CONTROLADOR 
             else:
                 st.markdown('## Unico dia que tiene registros')
                 date_week= obtener_fecha_inicio_fin(time_week.iloc[-1][['createdAt']].values[0])
@@ -103,7 +103,6 @@ if on_perimetro.shape[0]!=0:
                 st.subheader(f'Fecha de fin: {fin_semena}')
                 day_select= day[0]
                 fi_time= time_week[time_week['createdAt'].dt.date == pd.to_datetime(day_select).date()]
-                st.write(f'{fi_time.shape}')
 
     #  control de error DIA SIN REGISTRO --------------------*********
             if fi_time.shape[0]!=0:
@@ -113,8 +112,18 @@ if on_perimetro.shape[0]!=0:
                 st.dataframe(val_vaca,use_container_width=True)
             else:
                 st.warning('Dia sin registros') 
+
+    #  control de error DIA CON MAS DE UN REGISTRO-------------------*********
+            if fi_time.shape[0] > 1:
+                mean_dist, dist_sum =val_vaca[['distancia']].mean().round(3),val_vaca[['distancia']].sum().round(3)
+                #st.write(f'{val_vaca[['tiempo']].sum()} -- {val_vaca[['tiempo']].mean()}')
+                sum_tim, time_mean= val_vaca[['tiempo']].sum().round(3), val_vaca[['tiempo']].mean().round(3)
+                velo_mean=val_vaca[['tiempo']].mean().round(3)
+                st.markdown(f'Movimiento promedio durante **{day_select}** fue  **{mean_dist.values[0]}** Km')
+                st.markdown(f'Distancia recorrida: **{dist_sum.values[0]}** km')
+                st.markdown(f'Tiempo: {sum_tim.values[0]} ')
             try: 
-                st.markdown('_Podra visualizar el recorrido del bovino en un mapa satelital_')
+                st.success(st.markdown('_Podra visualizar el recorrido del bovino en un mapa satelital_'))
                 if st.button('Recorrido en Mapa') or fi_time.shape[0]==1:
                         fig = go.Figure()
                         grafic_map(fi_time,[select], fig)
@@ -131,24 +140,14 @@ if on_perimetro.shape[0]!=0:
                         st.plotly_chart(fig)
             except NameError or IndexError:
                 pass
-
-    #  control de error DIA CON MAS DE UN REGISTRO-------------------*********
-            if fi_time.shape[0] > 1:
-                mean_dist, dist_sum =val_vaca[['distancia']].mean().round(3),val_vaca[['distancia']].sum().round(3)
-                #st.write(f'{val_vaca[['tiempo']].sum()} -- {val_vaca[['tiempo']].mean()}')
-                sum_tim, time_mean= val_vaca[['tiempo']].sum().round(3), val_vaca[['tiempo']].mean().round(3)
-                velo_mean=val_vaca[['tiempo']].mean().round(3)
-                st.markdown(f'Movimiento promedio durante **{day_select}** fue  **{mean_dist.values[0]}**km')
-                st.markdown(f'Distancia recorrida: **{dist_sum.values[0]}** km')
-                st.markdown(f'Tiempo: {sum_tim.values[0]} ')
                 st.markdown('***')
-                #  GRAFICO CORESPONDIENTE A VARIACIONO DE MOVIMIENTO-------------------++++++++ 
+                 #  GRAFICO CORESPONDIENTE A VARIACIONO DE MOVIMIENTO-------------------++++++++ 
                 st.subheader('Variaciones de movimiento y distancia')
-                st.markdown(f'* valor corespondiente al dia {day_select}')
+                st.markdown(f'* Valor corespondiente al dia {day_select}')
                 fig=px.area(val_vaca, x=val_vaca['point_ini'], y= val_vaca['distancia'],)
                 st.plotly_chart(fig,use_container_width=True)
                 
-                # VECES QUE SE VA A LA AGUADA AEN EL DIA-----------+++++++++++++
+                 # VECES QUE SE VA A LA AGUADA AEN EL DIA-----------+++++++++++++
                 st.subheader('Veces que se va a las aguadas en el dia marcado')
                 agua= agua_click(df_gps, select, day_select, setle[setle.name==select_sl]._id.values[0])
                 if agua.shape[0] != 0:
@@ -164,7 +163,7 @@ if on_perimetro.shape[0]!=0:
                 
                  #  GRAFICO CORESPONDIENTE A VELOCIDAD-------------------++++++++ 
                 st.subheader('Alteracion de velocidad')
-                st.markdown(f'* valor corespondiente al dia {day_select}')
+                st.markdown(f'* Valor corespondiente al dia {day_select}')
                 fig=px.area(val_vaca, x=val_vaca['point_ini'],y=val_vaca['velocidad'])
                 st.plotly_chart(fig,use_container_width=True) 
                 st.markdown(f'* Velocidad promedio **{velo_mean.values[0]}** k/h')
@@ -172,7 +171,7 @@ if on_perimetro.shape[0]!=0:
                 st.markdown('***')
                  #  GRAFICO CORESPONDIENTE A TIEMPO-------------------++++++++ 
                 st.subheader('Variaciones de Tiempo ')
-                st.markdown(f'* valor corespondiente al dia {day_select}')
+                st.markdown(f'* Valor corespondiente al dia {day_select}')
                 fig=px.area(val_vaca, x=val_vaca['point_ini'], y= val_vaca['tiempo'])
                 st.plotly_chart(fig,use_container_width=True) 
                 st.markdown(f'* Tiempo promedio:  **{time_mean.values[0]}** hrs')
