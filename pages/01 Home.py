@@ -138,11 +138,14 @@ if on_perimetro.shape[0]!=0:
                 
                 # VECES QUE SE VA A LA AGUADA AEN EL DIA
                 agua= agua_click(df_gps, select, day_select, setle[setle.name==select_sl]._id.values[0])
-                agua= agua.drop(columns=['geometry'])
-                veces_dia= agua.groupby([agua['createdAt'].dt.hour]).agg({'UUID': 'count'})
-                veces_dia= veces_dia.reset_index().rename(columns= {'createdAt':'Hora', 'UUID':'Conteo'})
-                veces_dia= veces_dia.set_index('Hora')
-                st.dataframe(veces_dia, use_container_width=True)
+                if agua.shape[0] != 0:
+                    agua= agua.drop(columns=['geometry'])
+                    veces_dia= agua.groupby([agua['createdAt'].dt.hour]).agg({'UUID': 'count'})
+                    veces_dia= veces_dia.reset_index().rename(columns= {'createdAt':'Hora', 'UUID':'Conteo'})
+                    veces_dia= veces_dia.set_index('Hora')
+                    st.dataframe(veces_dia, use_container_width=True)
+                else:
+                    st.warning('No hay registros de la aguada')
                 
                 st.markdown('***')
                 st.subheader('Alteracion de velocidad')
