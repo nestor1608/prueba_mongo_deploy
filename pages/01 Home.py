@@ -125,7 +125,7 @@ if on_perimetro.shape[0]!=0:
                 
 # PRESENTACION DE MAPA--------------------------------------------------
             try: 
-                st.success('Podra visualizar el recorrido del bovino en un mapa satelital'))
+                st.success('Podra visualizar el recorrido del bovino en un mapa satelital')
                 if st.button('Recorrido en Mapa') or fi_time.shape[0]==1:
                         fig = go.Figure()
                         grafic_map(fi_time,[select], fig)
