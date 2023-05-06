@@ -33,7 +33,7 @@ def perimetro_aprox(hectarea):
 
 def data_devices(data:pd.DataFrame,uuid):
     data=data[data.UUID == uuid]
-    data= data.sort_values('cretedAt',ascending=True)
+    data= data.sort_values('createdAt',ascending=True)
     return data
 
 def gps_data(data):
