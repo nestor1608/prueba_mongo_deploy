@@ -18,7 +18,8 @@ st.image('imagenes/Header_bastó.jpeg')
 setle= setle_list()# arroja dataframe arreglado de setle---
 
 
-
+st.markdown('***')
+st.subheader('Asentamientos con Registros')
 st.dataframe(setle[['name', 'hectares', 'latitud_c', 'longitud_c']],use_container_width=True)
 
 
