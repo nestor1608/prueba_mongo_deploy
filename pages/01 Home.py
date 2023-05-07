@@ -77,7 +77,7 @@ if on_perimetro.shape[0]!=0:
             st.write(f'{day}')
 
             st.write('En esa semana específica, puede visualizar los datos de un momento específico del día y sus datos de ese collar en específico:')
-            fig=px.bar(sep_time.sort_values('createdAt',ascending=True),x=sep_time.createdAt.dt.day_name(), y=sep_time.count_register)
+            fig=px.bar(sep_time.sort_values('createdAt',ascending=False),x=sep_time.createdAt.dt.day_name(), y=sep_time.count_register)
             st.plotly_chart(fig,use_container_width=True) 
 
 
