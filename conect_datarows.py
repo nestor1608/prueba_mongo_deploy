@@ -216,15 +216,18 @@ def diagnostico_devices(df):
 
 
 def agregar_iths(data,asentamiento_id):
-    df_setith= mongo_data('settlementithcounts')
-    df_setith.settlementId =df_setith.settlementId.astype(str)
-    pru= df_setith[df_setith.settlementId ==asentamiento_id]
-    aux= {}
-    for fecha in data.point_ini.dt.date.unique():
-        prueba=pru[pru.createdAt.dt.date== fecha]
-        dataq=data[data.point_ini.dt.date  == fecha]
-        aux[fecha]= pd.merge(dataq,prueba[['createdAt', 'ITH']],left_on=dataq.point_ini.dt.hour, right_on=prueba['createdAt'].dt.hour)
-    prueb= pd.concat(aux.values())  
-    prueb= prueb.drop(columns=['key_0','createdAt'])  
-    if prueb.shape[0] == 0: return data 
-    return prueb
+    try:
+        df_setith= mongo_data('settlementithcounts')
+        df_setith.settlementId =df_setith.settlementId.astype(str)
+        pru= df_setith[df_setith.settlementId ==asentamiento_id]
+        aux= {}
+        for fecha in data.point_ini.dt.date.unique():
+            prueba=pru[pru.createdAt.dt.date== fecha]
+            dataq=data[data.point_ini.dt.date  == fecha]
+            aux[fecha]= pd.merge(dataq,prueba[['createdAt', 'ITH']],left_on=dataq.point_ini.dt.hour, right_on=prueba['createdAt'].dt.hour)
+        prueb= pd.concat(aux.values())  
+        prueb= prueb.drop(columns=['key_0','createdAt'])  
+        if prueb.shape[0] == 0: return data 
+        return prueb
+    except AttributeError:
+        return data
