@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from funciones_app import dataframe_interview_vaca,data_devices,week_data_filter, filter_area_perimetro,transform,get_range_week,select_data_by_dates
-from conect_datarows import obtener_fecha_inicio_fin, df_gps, setle_list,agregar_iths
+from funciones_app import dataframe_interview_vaca,data_devices, filter_area_perimetro,transform,get_range_week,select_data_by_dates
+from conect_datarows import obtener_fecha_inicio_fin, df_gps, setle_list,agregar_iths,cosa
 from prueba import conducta_vaca_periodo,agua_click
 from suport_st import grafic_map,mapbox_access_token
 import plotly.express as px
@@ -121,7 +121,7 @@ if on_perimetro.shape[0]!=0:
                 velo_mean=val_vaca[['tiempo']].mean().round(3)
                 st.markdown(f'Movimiento promedio durante **{day_select}** fue  **{mean_dist.values[0]}** Km')
                 st.markdown(f'Distancia recorrida: **{dist_sum.values[0]}** km')
-                st.markdown(f'Tiempo: {sum_tim.values[0]} ')
+                st.markdown(f'Tiempo: **{cosa(sum_tim.values[0])}** ')
                 
 # PRESENTACION DE MAPA--------------------------------------------------
                 try: 
@@ -177,7 +177,7 @@ if on_perimetro.shape[0]!=0:
                 st.markdown(f'* Valor corespondiente al dia {day_select}')
                 fig=px.area(val_vaca, x=val_vaca['point_ini'], y= val_vaca['tiempo'])
                 st.plotly_chart(fig,use_container_width=True) 
-                st.markdown(f'* Tiempo promedio:  **{time_mean.values[0]}** hrs')
+                st.markdown(f'* Tiempo promedio:  **{cosa(time_mean.values[0])}** hrs')
                 
 
                 tabla_datos,tabla_resumen,tabla_diag= conducta_vaca_periodo(time_week, df_gps,select, select_sl ,inici_semana, fin_semena)# ACAAA ESTA CREADO EL DATAFRAME CON LOS 
