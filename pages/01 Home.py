@@ -70,7 +70,8 @@ if on_perimetro.shape[0]!=0:
         if time_week.shape[0]!=0:
             sep_time=time_week['createdAt'].groupby(dt_vaca.createdAt.dt.date).aggregate(['count']).rename(columns={'count':'count_register'}).reset_index()
 
-            sep_time.createdAt= pd.to_datetime(sep_time.createdAt).day_name()
+            sep_time.createdAt= pd.to_datetime(sep_time.createdAt).dt.day_name()
+            #sep_time.createdAt=sep_time.createdAt.dtday
             sep_time =sep_time.sort_values('createdAt',ascending=True)
             day=sep_time.createdAt.dt.date.sort_values()
             st.write(f'{day}')
