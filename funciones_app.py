@@ -67,18 +67,6 @@ def obtener_fecha_inicio_fin(semana):
     return fecha_inicio, fecha_fin
 
 
-
-def week_data_filter(data,fecha):
-    
-    if isinstance(fecha,int):
-        dat= data[data.createdAt.dt.strftime('%U') == str(fecha)]
-    else:
-        week = obtener_fecha_inicio_fin(fecha)
-        
-        dat = data[(data.createdAt >= week[0]) & (data.createdAt <= week[1])]
-
-    return dat
-
 def get_range_week(year,week):
     enero_1= datetime(year,1,1)
     dia_para= (week-1)*7
