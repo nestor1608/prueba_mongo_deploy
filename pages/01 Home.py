@@ -69,11 +69,11 @@ if on_perimetro.shape[0]!=0:
         
         if time_week.shape[0]!=0:
             sep_time=time_week['createdAt'].groupby(dt_vaca.createdAt.dt.date).aggregate(['count']).rename(columns={'count':'count_register'}).reset_index()
-            day=sep_time.createdAt.dt.date.sort_values()
-            st.write(f'{day}')
 
             sep_time.createdAt= pd.to_datetime(sep_time.createdAt).day_name()
             sep_time =sep_time.sort_values('createdAt',ascending=True)
+            day=sep_time.createdAt.dt.date.sort_values()
+            st.write(f'{day}')
 
             st.write('En esa semana específica, puede visualizar los datos de un momento específico del día y sus datos de ese collar en específico:')
             fig=px.bar(sep_time,x=sep_time.createdAt.dt.day_name(), y=sep_time.count_register)
