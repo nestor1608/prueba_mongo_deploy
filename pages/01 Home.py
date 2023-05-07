@@ -50,7 +50,7 @@ if on_perimetro.shape[0]!=0:
         data_week.createdAt = data_week.createdAt.apply(lambda x : int(x))
         
 
- 
+
         if int(data_week['createdAt'].min())!= int(data_week['createdAt'].max()):
             st.write('Ahora puede observar una semana en específica con el menú siguiente:')
             fig= px.bar( data_week,x=data_week['createdAt'],y=data_week['count_register'])
