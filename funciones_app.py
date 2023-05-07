@@ -69,7 +69,7 @@ def obtener_fecha_inicio_fin(semana):
 
 def get_range_week(year,week):
     enero_1= datetime(year,1,1)
-    dia_para= (week-1)*8
+    dia_para= (week-1)*7
     semana_ini= enero_1 + timedelta(days=dia_para)
     ultimo_dia_semana = semana_ini + timedelta(days=6)
     return semana_ini.strftime("%Y-%m-%d"),ultimo_dia_semana.strftime("%Y-%m-%d")
