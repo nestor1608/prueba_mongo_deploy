@@ -50,7 +50,6 @@ if on_perimetro.shape[0]!=0:
         data_week.createdAt = data_week.createdAt.apply(lambda x : int(x))
         
 
-        
  
         if int(data_week['createdAt'].min())!= int(data_week['createdAt'].max()):
             st.write('Ahora puede observar una semana en específica con el menú siguiente:')
@@ -71,7 +70,7 @@ if on_perimetro.shape[0]!=0:
             sep_time=time_week['createdAt'].groupby(dt_vaca.createdAt.dt.date).aggregate(['count']).rename(columns={'count':'count_register'}).reset_index()
 
             sep_time.createdAt= pd.to_datetime(sep_time.createdAt)
-            #sep_time.createdAt=sep_time.createdAt.dtday
+            sep_time.createdAt = sep_time.createdAt.dt.day_name()
             #sep_time =sep_time.sort_values('createdAt',ascending=True)
             day=sep_time.createdAt.dt.date
             st.write(f'{day}')
