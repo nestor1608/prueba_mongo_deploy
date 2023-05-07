@@ -124,9 +124,9 @@ if on_perimetro.shape[0]!=0:
                 st.markdown(f'Tiempo: {sum_tim.values[0]} ')
                 
 # PRESENTACION DE MAPA--------------------------------------------------
-            try: 
-                st.success('Podra visualizar el recorrido del bovino en un mapa satelital')
-                if st.button('Recorrido en Mapa') or fi_time.shape[0]==1:
+                try: 
+                    st.success('Podra visualizar el recorrido del bovino en un mapa satelital')
+                    if st.button('Recorrido en Mapa') or fi_time.shape[0]==1:
                         fig = go.Figure()
                         grafic_map(fi_time,[select], fig)
                         
@@ -140,8 +140,8 @@ if on_perimetro.shape[0]!=0:
                             showlegend=False
                         )
                         st.plotly_chart(fig)
-            except NameError or IndexError:
-                pass
+                except NameError or IndexError:
+                    pass
 #-----------------------------------------------------------------------------
                 st.markdown('***')
                  #  GRAFICO CORESPONDIENTE A VARIACIONO DE MOVIMIENTO-------------------++++++++ 
